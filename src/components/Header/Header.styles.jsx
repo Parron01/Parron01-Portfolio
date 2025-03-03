@@ -9,10 +9,9 @@ export const HeaderContainer = styled.header`
     margin: 4rem auto 0 auto;
     background-color: #171717;
     border-radius: 3rem;
-    padding: 0;
+    padding: 1rem 0;
 
     @media (max-width: 1100px) {
-        height: auto;
         padding: 1rem 0;
     }
 `;
@@ -86,7 +85,7 @@ export const RightNavGroup = styled.div`
 export const Logo = styled.div`
   display: flex;
   align-items: center;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 600;
   color: white;
   
@@ -134,7 +133,7 @@ export const NavItem = styled.li`
 export const NavButton = styled.button`
     background: ${({ $active }) => ($active ? "#4169E1" : "transparent")};
     color: ${({ $active }) => ($active ? "white" : "#ffffff")};
-    font-size: 1.5rem; 
+    font-size: 1.27rem; 
     font-weight: ${({ $active }) => ($active ? "bold" : "normal")};
     padding: 0.5rem 1rem;
     border: none;
