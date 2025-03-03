@@ -10,7 +10,7 @@ export const GlobalStyle = createGlobalStyle`
     }
     body, html {
         height: 100%;
-        background-color: ${props => props.theme["gray-100"]};
+        background-color: ${props => props.theme["background-color"]};
     }
 
     body {
