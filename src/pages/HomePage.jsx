@@ -1,8 +1,8 @@
-import HelloWorld from "../components/HomePage/HelloWorld";
+import Header from "../components/Header/Header";
 
 function HomePage() {
   return (
-    <HelloWorld/>
+    <Header/>
   );
 }
 
