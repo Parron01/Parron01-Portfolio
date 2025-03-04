@@ -5,7 +5,7 @@ export const IntroductionContainer = styled.section`
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 16rem 0 2rem 0;
+  padding: 12rem 0 2rem 0;
 `;
 
 export const Content = styled.div`
