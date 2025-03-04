@@ -5,20 +5,15 @@ export const HeaderContainer = styled.header`
     justify-content: center;
     align-items: center;
     width: 75%;
-    height: 100px;
+    height: 80px;
     margin: 0 auto;
     background-color: #171717;
     border-radius: 3rem;
-    padding: 1rem 0;
     position: fixed;
     top: 4rem;
     left: 0;
     right: 0;
     z-index: 1000;
-
-    @media (max-width: 1100px) {
-        padding: 1rem 0;
-    }
 `;
 
 export const Nav = styled.nav`
