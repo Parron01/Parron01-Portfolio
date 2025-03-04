@@ -6,10 +6,15 @@ export const HeaderContainer = styled.header`
     align-items: center;
     width: 75%;
     height: 100px;
-    margin: 4rem auto 0 auto;
+    margin: 0 auto;
     background-color: #171717;
     border-radius: 3rem;
     padding: 1rem 0;
+    position: fixed;
+    top: 4rem;
+    left: 0;
+    right: 0;
+    z-index: 1000;
 
     @media (max-width: 1100px) {
         padding: 1rem 0;
