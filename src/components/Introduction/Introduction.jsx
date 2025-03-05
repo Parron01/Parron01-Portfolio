@@ -26,8 +26,8 @@ const Introduction = () => {
           <Subtitle>Olá, eu sou</Subtitle>
           <Name>Andre Parron</Name>
           <TitleContainer>
-            <TitleWord align="left">Software</TitleWord>
-            <TitleWord align="right">Developer</TitleWord>
+            <TitleWord $align="left">Software</TitleWord>
+            <TitleWord $align="right">Developer</TitleWord>
           </TitleContainer>
           <Description>
             Formado em Ciência da Computação, 23 anos. <br />
