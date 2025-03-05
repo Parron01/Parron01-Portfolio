@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ProjectsContainer,
   ProjectsTitle,
@@ -13,9 +13,11 @@ import {
   ProjectLink,
   GitHubIcon,
   Tooltip,
+  CardTouchIndicator,
+  TapText,
 } from "./Projects.styles";
 
-import { FaJava, FaReact, FaDatabase, FaGithub, FaGit, FaDocker } from "react-icons/fa";
+import { FaJava, FaReact, FaDatabase, FaGithub, FaDocker, FaHandPointer } from "react-icons/fa";
 import { SiSpringboot } from "react-icons/si";
 
 // Dados dos projetos (facilitando expansão futura)
@@ -31,7 +33,7 @@ const projectsData = [
       { name: "Java", icon: <FaJava />, color: "#F89820" },
       { name: "React", icon: <FaReact />, color: "#61DAFB" },
       { name: "PostgreSQL", icon: <FaDatabase />, color: "#336791" },
-      { name: "Git", icon: <FaGit />, color: "#F05032" },
+      { name: "Git", icon: <FaGithub />, color: "#000000" },
       { name: "Docker", icon: <FaDocker />, color: "#2496ED" },
       { name: "Spring Boot", icon: <SiSpringboot />, color: "#6DB33F" },
     ],
@@ -47,7 +49,7 @@ const projectsData = [
       { name: "Java", icon: <FaJava />, color: "#F89820" },
       { name: "React", icon: <FaReact />, color: "#61DAFB" },
       { name: "PostgreSQL", icon: <FaDatabase />, color: "#336791" },
-      { name: "Git", icon: <FaGit />, color: "#F05032" },
+      { name: "Git", icon: <FaGithub />, color: "#000000" },
       { name: "Docker", icon: <FaDocker />, color: "#2496ED" },
       { name: "Spring Boot", icon: <SiSpringboot />, color: "#6DB33F" },
     ],
@@ -56,14 +58,55 @@ const projectsData = [
 
 const Projects = () => {
   const [activeTooltip, setActiveTooltip] = useState({ projectId: null, techIndex: null });
+  const [showIndicator, setShowIndicator] = useState(true);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    // Track window resize for responsive behavior
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    // Clean up
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Show indicator initially and then hide after 2 seconds
+  useEffect(() => {
+    const initialTimeout = setTimeout(() => {
+      setShowIndicator(false);
+    }, 2000);
+
+    // Set up interval to show indicator again every 10 seconds
+    const indicatorInterval = setInterval(() => {
+      setShowIndicator(true);
+      setTimeout(() => {
+        setShowIndicator(false);
+      }, 2000);
+    }, 10000);
+
+    // Clean up timeouts/intervals on unmount
+    return () => {
+      clearTimeout(initialTimeout);
+      clearInterval(indicatorInterval);
+    };
+  }, []);
 
   const handleTechClick = (projectId, techIndex) => {
     if (activeTooltip.projectId === projectId && activeTooltip.techIndex === techIndex) {
-      setActiveTooltip({ projectId: null, techIndex: null }); // Close tooltip if clicking the same tech
+      setActiveTooltip({ projectId: null, techIndex: null });
     } else {
-      setActiveTooltip({ projectId, techIndex }); // Open tooltip for this tech
+      setActiveTooltip({ projectId, techIndex });
     }
   };
+
+  const handleCardClick = (link) => {
+    window.open(link, "_blank");
+  };
+
+  const isMobile = windowWidth <= 1100;
 
   return (
     <ProjectsContainer>
@@ -72,10 +115,22 @@ const Projects = () => {
         {projectsData.map((project, index) => (
           <ProjectCard 
             key={project.id}
-            reverse={index % 2 !== 0}
-            index={index}
+            $reverse={index % 2 !== 0}
+            $index={index}
+            onClick={() => handleCardClick(project.link)}
           >
-            <ProjectImage src={project.image} alt={project.title} reverse={index % 2 !== 0} />
+            {showIndicator && isMobile && (
+              <CardTouchIndicator aria-hidden="true">
+                <FaHandPointer />
+                <TapText>Clique para acessar projeto</TapText>
+              </CardTouchIndicator>
+            )}
+            
+            <ProjectImage 
+              src={project.image} 
+              alt={project.title} 
+              $reverse={index % 2 !== 0} 
+            />
             <ProjectContent>
               <ProjectTitle>{project.title}</ProjectTitle>
               <ProjectDescription>{project.description}</ProjectDescription>
@@ -85,16 +140,23 @@ const Projects = () => {
                     key={techIndex} 
                     color={tech.color} 
                     title={tech.name}
-                    onClick={() => handleTechClick(project.id, techIndex)}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent card click
+                      handleTechClick(project.id, techIndex);
+                    }}
                   >
                     {tech.icon}
-                    <Tooltip visible={activeTooltip.projectId === project.id && activeTooltip.techIndex === techIndex}>
+                    <Tooltip $visible={activeTooltip.projectId === project.id && activeTooltip.techIndex === techIndex}>
                       {tech.name}
                     </Tooltip>
                   </TechItem>
                 ))}
               </TechStack>
-              <ProjectLink href={project.link} target="_blank">
+              <ProjectLink 
+                href={project.link} 
+                target="_blank"
+                onClick={(e) => e.stopPropagation()} // Prevent double navigation
+              >
                 <GitHubIcon />
                 Acesse o repositório
               </ProjectLink>

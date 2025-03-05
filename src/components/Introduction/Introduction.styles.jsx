@@ -83,7 +83,7 @@ export const TitleWord = styled.h1`
   font-weight: bold;
   color: #171717;
   line-height: 1;
-  text-align: ${props => props.align || "left"};
+  text-align: ${props => props.$align || "left"};
   
   @media (max-width: 1100px) {
     font-size: 7rem;
