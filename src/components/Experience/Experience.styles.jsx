@@ -7,6 +7,9 @@ export const ExperienceContainer = styled.section`
   justify-content: center;
   width: 100%;
   padding: 4rem 0;
+  background: #F8F8F8;
+  position: relative; /* For absolute positioning of popup */
+  overflow: visible; /* Ensure popup can appear outside */
 `;
 
 export const ContentWrapper = styled.div`
@@ -64,68 +67,27 @@ export const ExperienceRow = styled.div`
   }
 `;
 
-export const ExperienceNumber = styled.div`
-  position: absolute;
-  left: -80px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 60px;
-  height: 60px;
-  border: 2px solid #4169E1;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 2.5rem;
-  color: #4169E1;
-  margin-left: 5rem;
-  
-  @media (max-width: 1100px) {
-    margin-left: 0;
-    left: -60px;
-    width: 50px;
-    height: 50px;
-    font-size: 2rem;
-  }
-  
-  @media (max-width: 900px) {
-    left: -45px;
-    width: 40px;
-    height: 40px;
-    font-size: 1.8rem;
-    top: 4rem;
-    transform: none;
-  }
-  
-  @media (max-width: 768px) {
-    left: -30px;
-    width: 30px;
-    height: 30px;
-    font-size: 1.5rem;
-  }
-`;
-
 export const LeftColumn = styled.div`
   width: calc(50% - 20px);
-  padding-right: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-end;
-  text-align: right;
+  align-items: flex-start;
+  text-align: left;
+  margin-left: 60px;
+  position: relative;
   
   @media (max-width: 900px) {
     width: 100%;
+    margin-left: 40px;
     align-items: flex-start;
     text-align: left;
-    padding-left: 3rem;
     padding-bottom: 0.5rem;
-}
+  }
 `;
 
 export const RightColumn = styled.div`
   width: calc(50% - 20px);
-  padding-left: 20px;
   margin-left: auto;
   display: flex;
   flex-direction: column;
@@ -182,5 +144,103 @@ export const TimelinePoint = styled.div`
   @media (max-width: 900px) {
     left: 15px;
     transform: translateY(-50%);
+  }
+`;
+
+export const CompanyInfoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 15px;
+`;
+
+export const TechButton = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  color: #4169E1;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-right: 20px;
+  
+  &:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.05);
+  }
+  
+  svg {
+    font-size: 24px;
+  }
+`;
+
+export const TechPopup = styled.div`
+  position: fixed;
+  z-index: 9999;
+  background-color: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 15px 20px;
+  min-width: 180px;
+  width: fit-content;
+  box-sizing: border-box;
+  transform: translateZ(0);
+  pointer-events: auto;
+  
+  h4 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+  }
+  
+  &:before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 15px;
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    transform: rotate(45deg);
+  }
+  
+  @media (max-width: 900px) {
+    &:before {
+      left: auto;
+      right: 15px;
+    }
+  }
+`;
+
+export const TechItem = styled.div`
+  padding: 6px 0;
+  margin-bottom: 5px;
+  font-size: 15px;
+  color: ${props => props.color || '#333'};
+  display: flex;
+  align-items: center;
+  
+  .tech-icon {
+    margin-right: 10px;
+    color: ${props => props.color || '#333'};
+    display: flex;
+    align-items: center;
+  }
+  
+  .tech-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+  }
+  
+  .tech-name {
+    font-weight: 500;
   }
 `;
