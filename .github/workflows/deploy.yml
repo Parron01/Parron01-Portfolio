@@ -1,0 +1,49 @@
+name: Deploy Portfólio na VPS
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'package.json'
+      - 'vite.config.*'
+      - 'Dockerfile'
+      - 'nginx.conf'
+      - '.github/workflows/deploy.yml'
+
+jobs:
+  deploy:
+    name: Deploy via SSH
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Acessar VPS e redeploy
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_KEY }}
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+          script: |
+            cd ~/deploy/portfolio/Parron01-Portfolio
+            git pull origin main
+
+            cd ~/deploy/nginx-proxy
+
+            echo "Derrubando containers antigos..."
+            docker compose down
+
+            echo "Iniciando nova build e containers..."
+            if docker compose up -d --build; then
+              echo "✅ Deploy realizado com sucesso."
+            else
+              echo "❌ Falha ao subir containers. Criando commit de rollback..."
+              cd ~/deploy/portfolio/Parron01-Portfolio
+              git reset --hard HEAD~1
+              git push origin main --force
+            fi
