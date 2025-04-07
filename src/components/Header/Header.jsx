@@ -31,7 +31,7 @@ const Header = () => {
         
         <DesktopLogo>
           <Logo>
-            <span>01</span> Andre
+            <span>01</span>
           </Logo>
         </DesktopLogo>
         
@@ -47,7 +47,7 @@ const Header = () => {
         {/* Layout para Mobile */}
         <MobileOnly>
           <Logo>
-            <span>01</span> Andre
+            <span>01</span>
           </Logo>
           <MenuToggle onClick={() => setMenuOpen(!menuOpen)}>
             ☰
