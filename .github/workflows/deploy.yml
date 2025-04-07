@@ -28,6 +28,7 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_KEY }}
+          fingerprint: ${{ secrets.VPS_FINGERPRINT }}
           script: |
             cd ~/deploy/portfolio/Parron01-Portfolio
             git pull origin main
