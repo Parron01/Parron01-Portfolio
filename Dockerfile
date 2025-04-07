@@ -1,5 +1,5 @@
 # Etapa 1: build da aplicação com Vite + Yarn
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 COPY package.json yarn.lock ./
