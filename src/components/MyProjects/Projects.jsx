@@ -19,6 +19,8 @@ import {
 
 import { FaJava, FaReact, FaDatabase, FaGithub, FaDocker, FaHandPointer } from "react-icons/fa";
 import { SiSpringboot } from "react-icons/si";
+import projeto1Image from "/src/assets/projeto1.png";
+import projeto2Image from "/src/assets/projeto2.png";
 
 // Dados dos projetos (facilitando expansão futura)
 const projectsData = [
@@ -27,7 +29,7 @@ const projectsData = [
     title: "Consulta de Contratos Públicos",
     description:
       "Aplicação web para consulta de contratos públicos via API do PNCP, com backend em Java e frontend em React. Para mais detalhes, acesse o repositório no GitHub.",
-    image: "/src/assets/projeto1.png",
+    image: projeto1Image,
     link: "https://github.com/Parron01/TestePraticoNUTI",
     techs: [
       { name: "Java", icon: <FaJava />, color: "#F89820" },
@@ -43,7 +45,7 @@ const projectsData = [
     title: "Plataforma de Pagamento",
     description:
       "Sistema de pagamentos inspirado no PicPay, com autenticação JWT e controle de transações. Mais informações disponíveis no repositório do GitHub.",
-    image: "/src/assets/projeto2.png",
+    image: projeto2Image,
     link: "https://github.com/Parron01/SimpleAppFullStack-TestePratico",
     techs: [
       { name: "Java", icon: <FaJava />, color: "#F89820" },
