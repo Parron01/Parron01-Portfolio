@@ -24,7 +24,7 @@ const skillsData = [
 
 const Skills = () => {
   return (
-    <SkillsContainer>
+    <SkillsContainer id="skills">
       <ContentWrapper>
         <SkillsTitle>Habilidades</SkillsTitle>
         <SkillsGrid>

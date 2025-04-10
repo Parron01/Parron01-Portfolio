@@ -46,7 +46,7 @@ const projectsData = [
     description:
       "Sistema de pagamentos inspirado no PicPay, com autenticação JWT e controle de transações. Mais informações disponíveis no repositório do GitHub.",
     image: projeto2Image,
-    link: "https://github.com/Parron01/SimpleAppFullStack-TestePratico",
+    link: "https://simpleapp.parron01.com/login",
     techs: [
       { name: "Java", icon: <FaJava />, color: "#F89820" },
       { name: "React", icon: <FaReact />, color: "#61DAFB" },
@@ -111,7 +111,7 @@ const Projects = () => {
   const isMobile = windowWidth <= 1100;
 
   return (
-    <ProjectsContainer>
+    <ProjectsContainer id="projects">
       <ProjectsTitle>Meus Projetos</ProjectsTitle>
       <ProjectGrid>
         {projectsData.map((project, index) => (

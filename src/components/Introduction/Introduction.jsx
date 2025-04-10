@@ -19,7 +19,7 @@ import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 const Introduction = () => {
   return (
-    <IntroductionContainer>
+    <IntroductionContainer id="introduction">
       <Content>
         {/* Texto e informações */}
         <TextContainer>

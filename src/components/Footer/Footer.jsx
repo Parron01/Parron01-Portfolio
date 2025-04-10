@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-scroll";
 import {
   FooterContainer,
   FooterTop,
@@ -21,6 +22,13 @@ const Footer = () => {
   const [copied, setCopied] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const email = "andreparoon@gmail.com";
+
+  // Configurações comuns para todos os links de navegação
+  const navLinkProps = {
+    smooth: true,
+    duration: 500,
+    offset: -100 // Ajustar conforme necessário
+  };
 
   const copyToClipboard = () => {
     // Use the Clipboard API if available
@@ -69,10 +77,10 @@ const Footer = () => {
 
         {/* Navegação */}
         <FooterNav>
-          <a href="#">Home</a>
-          <a href="#">Habilidades</a>
-          <a href="#">Experiência</a>
-          <a href="#">Meus Projetos</a>
+          <Link to="introduction" {...navLinkProps}>Início</Link>
+          <Link to="skills" {...navLinkProps}>Habilidades</Link>
+          <Link to="experience" {...navLinkProps}>Experiência</Link>
+          <Link to="projects" {...navLinkProps}>Meus Projetos</Link>
         </FooterNav>
 
         {/* Redes sociais */}

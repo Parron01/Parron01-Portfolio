@@ -145,6 +145,11 @@ export const NavButton = styled.button`
         color: ${({ $active }) => ($active ? "black" : "#ffffff")};
         background: ${({ $active }) => ($active ? "#4169E1" : "#2e2e2e")};
     }
+    .active & {
+        background: #4169E1;
+        color: white;
+        font-weight: bold;
+    }
 `;
 
 export const MenuToggle = styled.div`

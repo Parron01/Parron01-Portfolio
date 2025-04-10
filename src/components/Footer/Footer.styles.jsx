@@ -46,6 +46,7 @@ export const FooterNav = styled.nav`
     color: #171717;
     font-weight: 500;
     transition: color 0.3s ease;
+    cursor: pointer;
 
     &:hover {
       color: #4169e1;

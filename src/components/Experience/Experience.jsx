@@ -158,7 +158,7 @@ const Experience = () => {
   };
 
   return (
-    <ExperienceContainer>
+    <ExperienceContainer id="experience">
       <ContentWrapper>
         <ExperienceTitle>
           Minha <span>Experiência de Trabalho</span>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-scroll";
 import {
   HeaderContainer,
   Nav,
@@ -15,6 +16,15 @@ import {
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  
+  // Configurações comuns para todos os links de navegação
+  const navLinkProps = {
+    smooth: true,
+    duration: 500,
+    spy: true,
+    offset: -100, // Ajustar conforme necessário para compensar o header fixo
+    onClick: () => setMenuOpen(false) // Fechar menu móvel após clicar
+  };
 
   return (
     <HeaderContainer>
@@ -22,10 +32,14 @@ const Header = () => {
         {/* Layout para Desktop */}
         <LeftNavGroup>
           <NavItem>
-            <NavButton $active>Home</NavButton>
+            <Link to="introduction" {...navLinkProps} activeClass="active">
+              <NavButton $active={false}>Início</NavButton>
+            </Link>
           </NavItem>
           <NavItem>
-            <NavButton>Habilidades</NavButton>
+            <Link to="skills" {...navLinkProps} activeClass="active">
+              <NavButton $active={false}>Habilidades</NavButton>
+            </Link>
           </NavItem>
         </LeftNavGroup>
         
@@ -37,10 +51,14 @@ const Header = () => {
         
         <RightNavGroup>
           <NavItem>
-            <NavButton>Experiência</NavButton>
+            <Link to="experience" {...navLinkProps} activeClass="active">
+              <NavButton $active={false}>Experiência</NavButton>
+            </Link>
           </NavItem>
           <NavItem>
-            <NavButton>Meus Projetos</NavButton>
+            <Link to="projects" {...navLinkProps} activeClass="active">
+              <NavButton $active={false}>Meus Projetos</NavButton>
+            </Link>
           </NavItem>
         </RightNavGroup>
         
@@ -56,16 +74,24 @@ const Header = () => {
         
         <NavLinks open={menuOpen}>
           <NavItem>
-            <NavButton $active>Home</NavButton>
+            <Link to="introduction" {...navLinkProps} activeClass="active">
+              <NavButton $active={false}>Início</NavButton>
+            </Link>
           </NavItem>
           <NavItem>
-            <NavButton>Habilidades</NavButton>
+            <Link to="skills" {...navLinkProps} activeClass="active">
+              <NavButton $active={false}>Habilidades</NavButton>
+            </Link>
           </NavItem>
           <NavItem>
-            <NavButton>Experiência</NavButton>
+            <Link to="experience" {...navLinkProps} activeClass="active">
+              <NavButton $active={false}>Experiência</NavButton>
+            </Link>
           </NavItem>
           <NavItem>
-            <NavButton>Meus Projetos</NavButton>
+            <Link to="projects" {...navLinkProps} activeClass="active">
+              <NavButton $active={false}>Meus Projetos</NavButton>
+            </Link>
           </NavItem>
         </NavLinks>
       </Nav>
