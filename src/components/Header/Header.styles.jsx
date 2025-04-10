@@ -89,12 +89,9 @@ export const Logo = styled.div`
   font-weight: 600;
   color: white;
   
-  span {
-    background-color: #4169E1;
-    color: white;
-    font-weight: 300;
-    padding: 0.1rem 0.5rem;
-    border-radius: 100%;
+  img {
+    width: 5rem; 
+    height: 5rem;
     margin-right: 0.5rem;
   }
 `;

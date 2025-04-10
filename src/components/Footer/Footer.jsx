@@ -15,6 +15,7 @@ import {
   CopyrightText,
   ToastNotification,
 } from "./Footer.styles";
+import icon01 from "/src/assets/01-icon.png"; // Importando a imagem
 
 import { FaGithub, FaInstagram, FaLinkedin, FaEnvelope, FaCheck } from "react-icons/fa";
 
@@ -23,15 +24,13 @@ const Footer = () => {
   const [showToast, setShowToast] = useState(false);
   const email = "andreparoon@gmail.com";
 
-  // Configurações comuns para todos os links de navegação
   const navLinkProps = {
     smooth: true,
     duration: 500,
-    offset: -100 // Ajustar conforme necessário
+    offset: -100
   };
 
   const copyToClipboard = () => {
-    // Use the Clipboard API if available
     if (navigator.clipboard) {
       navigator.clipboard.writeText(email)
         .then(() => {
@@ -43,10 +42,9 @@ const Footer = () => {
           }, 3000);
         });
     } else {
-      // Fallback for older browsers
       const textArea = document.createElement("textarea");
       textArea.value = email;
-      textArea.style.position = "fixed"; // Avoid scrolling to bottom
+      textArea.style.position = "fixed";
       document.body.appendChild(textArea);
       textArea.focus();
       textArea.select();
@@ -72,7 +70,8 @@ const Footer = () => {
       <FooterTop>
         {/* Logo */}
         <Logo>
-          <span>01</span> Andre
+          <img src={icon01} alt="Logo 01" /> {/* Substituindo o texto pela imagem */}
+          Andre
         </Logo>
 
         {/* Navegação */}

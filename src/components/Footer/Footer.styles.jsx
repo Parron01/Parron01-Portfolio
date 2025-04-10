@@ -27,12 +27,9 @@ export const Logo = styled.div`
   display: flex;
   align-items: center;
 
-  span {
-    background-color: #4169e1;
-    color: white;
-    font-weight: bold;
-    padding: 0.4rem 0.8rem;
-    border-radius: 50%;
+  img {
+    width: 4rem; 
+    height: 4rem;
     margin-right: 0.5rem;
   }
 `;

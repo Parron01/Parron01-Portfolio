@@ -13,23 +13,22 @@ import {
   MobileOnly,
   DesktopLogo
 } from "./Header.styles";
+import icon01 from "/src/assets/01-icon.png"; // Importando a imagem
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   
-  // Configurações comuns para todos os links de navegação
   const navLinkProps = {
     smooth: true,
     duration: 500,
     spy: true,
-    offset: -100, // Ajustar conforme necessário para compensar o header fixo
-    onClick: () => setMenuOpen(false) // Fechar menu móvel após clicar
+    offset: -100,
+    onClick: () => setMenuOpen(false)
   };
 
   return (
     <HeaderContainer>
       <Nav>
-        {/* Layout para Desktop */}
         <LeftNavGroup>
           <NavItem>
             <Link to="introduction" {...navLinkProps} activeClass="active">
@@ -45,7 +44,7 @@ const Header = () => {
         
         <DesktopLogo>
           <Logo>
-            <span>01</span>
+            <img src={icon01} alt="Logo 01" /> 
           </Logo>
         </DesktopLogo>
         
@@ -62,10 +61,9 @@ const Header = () => {
           </NavItem>
         </RightNavGroup>
         
-        {/* Layout para Mobile */}
         <MobileOnly>
           <Logo>
-            <span>01</span>
+            <img src={icon01} alt="Logo 01" /> 
           </Logo>
           <MenuToggle onClick={() => setMenuOpen(!menuOpen)}>
             ☰
