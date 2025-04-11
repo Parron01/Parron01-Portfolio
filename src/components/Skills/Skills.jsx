@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import {
   SkillsContainer,
   ContentWrapper,
@@ -9,36 +10,259 @@ import {
   SkillInfo,
   SkillName,
   SkillProjects,
+  TechPopup,
+  TechPopupHeader,
+  TechPopupTitle,
+  TechPopupClose,
+  TechPopupSection,
+  TechPopupSectionTitle,
+  TechPopupItem,
+  TechPopupNoItems,
+  // Novos componentes de paginação
+  SkillsGridContainer,
+  PaginationContainer,
+  PrevArrow,
+  NextArrow,
+  PaginationIndicator,
+  PageDot
 } from "./Skills.styles";
 
-import { FaJava, FaReact, FaPython, FaNodeJs, FaDatabase, FaGit } from "react-icons/fa";
+import { usePortfolioData } from "../../hooks/usePortfolioData";
 
-const skillsData = [
-  { id: 1, name: "Java", icon: <FaJava />, projects: 3, color: "#F89820" },
-  { id: 2, name: "React", icon: <FaReact />, projects: 5, color: "#61DAFB" },
-  { id: 3, name: "Python", icon: <FaPython />, projects: 4, color: "#FFD43B" },
-  { id: 4, name: "Node.js", icon: <FaNodeJs />, projects: 6, color: "#68A063" },
-  { id: 5, name: "Banco de Dados", icon: <FaDatabase />, projects: 2, color: "#4DB33D" },
-  { id: 6, name: "Git", icon: <FaGit />, projects: 7, color: "#F05032" },
-];
+const ITEMS_PER_PAGE = 6; // 2 linhas com 3 colunas = 6 itens por página
 
 const Skills = () => {
+  const { techItems, isLoading } = usePortfolioData();
+  const [activePopup, setActivePopup] = useState(null);
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isChanging, setIsChanging] = useState(false);
+  const [slideDirection, setSlideDirection] = useState(null);
+  const popupRef = useRef(null);
+  const cardRefs = useRef({});
+
+  // Calcular o número total de páginas
+  const totalPages = Math.ceil(techItems.length / ITEMS_PER_PAGE);
+
+  // Fechar popup ao fazer scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (activePopup) {
+        setActivePopup(null);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [activePopup]);
+
+  // Fechar popup ao clicar fora
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (activePopup && popupRef.current && !popupRef.current.contains(e.target)) {
+        const isCardClick = Object.values(cardRefs.current).some(
+          ref => ref && ref.contains(e.target)
+        );
+        
+        if (!isCardClick) {
+          setActivePopup(null);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [activePopup]);
+
+  const handleSkillClick = (e, tech) => {
+    e.stopPropagation();
+    
+    const rect = e.currentTarget.getBoundingClientRect();
+    const windowWidth = window.innerWidth;
+    
+    // Calcular posição do popup relativa à viewport
+    let left = rect.left;
+    const top = rect.bottom + 10;
+    
+    // Verificar se o popup vai sair da tela pela direita
+    const popupWidth = 300;
+    if (left + popupWidth > windowWidth) {
+      left = windowWidth - popupWidth - 20;
+    }
+    
+    if (activePopup && activePopup.name === tech.name) {
+      setActivePopup(null);
+    } else {
+      setPopupPosition({ top, left });
+      setActivePopup(tech);
+    }
+  };
+
+  const getCurrentPageItems = () => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return techItems.slice(startIndex, endIndex);
+  };
+
+  const animatePageChange = (direction, newPage) => {
+    setSlideDirection(direction);
+    setIsChanging(true);
+    
+    setTimeout(() => {
+      setCurrentPage(newPage);
+      
+      // Reset animation after content change
+      setTimeout(() => {
+        setIsChanging(false);
+        setSlideDirection(null);
+      }, 50);
+    }, 300);
+  };
+
+  // Navigation functions
+  const prevPage = () => {
+    if (currentPage > 1) {
+      animatePageChange('right', currentPage - 1);
+      setActivePopup(null);
+    }
+  };
+
+  const nextPage = () => {
+    if (currentPage < totalPages) {
+      animatePageChange('left', currentPage + 1);
+      setActivePopup(null);
+    }
+  };
+
+  const handlePageDotClick = (pageNumber) => {
+    if (pageNumber !== currentPage) {
+      const direction = pageNumber > currentPage ? 'left' : 'right';
+      animatePageChange(direction, pageNumber);
+      setActivePopup(null);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <SkillsContainer id="skills">
+        <ContentWrapper>
+          <SkillsTitle>Habilidades</SkillsTitle>
+          <p>Carregando...</p>
+        </ContentWrapper>
+      </SkillsContainer>
+    );
+  }
+
   return (
     <SkillsContainer id="skills">
       <ContentWrapper>
         <SkillsTitle>Habilidades</SkillsTitle>
-        <SkillsGrid>
-          {skillsData.map((skill) => (
-            <SkillCard key={skill.id}>
-              <SkillIcon color={skill.color}>{skill.icon}</SkillIcon>
-              <SkillInfo>
-                <SkillName>{skill.name}</SkillName>
-                <SkillProjects color={skill.color}>{skill.projects} Projetos</SkillProjects>
-              </SkillInfo>
-            </SkillCard>
-          ))}
-        </SkillsGrid>
+        
+        <SkillsGridContainer>
+          {/* Controles de paginação */}
+          <PaginationContainer>
+            <PrevArrow 
+              onClick={prevPage} 
+              disabled={currentPage === 1}
+              aria-label="Página anterior"
+            >
+              <FaChevronLeft />
+            </PrevArrow>
+            
+            <NextArrow 
+              onClick={nextPage} 
+              disabled={currentPage === totalPages || totalPages === 0}
+              aria-label="Próxima página"
+            >
+              <FaChevronRight />
+            </NextArrow>
+          </PaginationContainer>
+          
+          {/* Grid de habilidades */}
+          <SkillsGrid 
+            $isChanging={isChanging}
+            $slideDirection={slideDirection}
+          >
+            {getCurrentPageItems().map((tech) => (
+              <SkillCard 
+                key={tech.name}
+                ref={el => cardRefs.current[tech.name] = el}
+                onClick={(e) => handleSkillClick(e, tech)}
+                role="button"
+                tabIndex={0}
+              >
+                <SkillIcon color={tech.color}>
+                  {tech.icon && <tech.icon />}
+                </SkillIcon>
+                <SkillInfo>
+                  <SkillName>{tech.name}</SkillName>
+                  <SkillProjects color={tech.color}>
+                    {tech.count} {tech.count === 1 ? "Projeto" : "Projetos"}
+                  </SkillProjects>
+                </SkillInfo>
+              </SkillCard>
+            ))}
+          </SkillsGrid>
+          
+          {/* Indicadores de página */}
+          {totalPages > 1 && (
+            <PaginationIndicator>
+              {Array.from({ length: totalPages }).map((_, index) => (
+                <PageDot 
+                  key={index} 
+                  $active={currentPage === index + 1} 
+                  onClick={() => handlePageDotClick(index + 1)}
+                />
+              ))}
+            </PaginationIndicator>
+          )}
+        </SkillsGridContainer>
       </ContentWrapper>
+      
+      {/* Tech Popup - Mover para fora do SkillsContainer */}
+      {activePopup && (
+        <TechPopup 
+          ref={popupRef}
+          style={{ 
+            top: `${popupPosition.top}px`, 
+            left: `${popupPosition.left}px`,
+            position: 'fixed', // Garantir que está fixed
+            zIndex: 9999 // Garantir que está acima de tudo
+          }}
+        >
+          <TechPopupHeader>
+            <TechPopupTitle>Tecnologia: {activePopup.name}</TechPopupTitle>
+            <TechPopupClose onClick={() => setActivePopup(null)}>×</TechPopupClose>
+          </TechPopupHeader>
+          
+          {/* Projetos */}
+          <TechPopupSection>
+            <TechPopupSectionTitle>Projetos:</TechPopupSectionTitle>
+            {activePopup.projects.length > 0 ? (
+              activePopup.projects.map(project => (
+                <TechPopupItem key={project.id}>
+                  {project.title}
+                </TechPopupItem>
+              ))
+            ) : (
+              <TechPopupNoItems>Nenhum projeto encontrado</TechPopupNoItems>
+            )}
+          </TechPopupSection>
+          
+          {/* Experiências */}
+          <TechPopupSection>
+            <TechPopupSectionTitle>Experiências:</TechPopupSectionTitle>
+            {activePopup.experiences.length > 0 ? (
+              activePopup.experiences.map(exp => (
+                <TechPopupItem key={exp.id}>
+                  {exp.company} - {exp.role}
+                </TechPopupItem>
+              ))
+            ) : (
+              <TechPopupNoItems>Nenhuma experiência encontrada</TechPopupNoItems>
+            )}
+          </TechPopupSection>
+        </TechPopup>
+      )}
     </SkillsContainer>
   );
 };

@@ -87,16 +87,16 @@ export const ProjectCard = styled.div`
   width: 67%;
   margin-right: ${({ $index }) => ($index % 2 === 0 ? 'auto' : '0')};
   margin-left: ${({ $index }) => ($index % 2 !== 0 ? 'auto' : '0')};
-  cursor: pointer;
+  cursor: ${({ $isClickable }) => ($isClickable ? 'pointer' : 'default')};
   position: relative;
 
   &:hover {
-    transform: scale(1.02);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transform: ${({ $isClickable }) => ($isClickable ? 'scale(1.02)' : 'none')};
+    box-shadow: ${({ $isClickable }) => ($isClickable ? '0 5px 15px rgba(0, 0, 0, 0.2)' : '2px 2px 10px rgba(0, 0, 0, 0.1)')};
   }
   
   &:active {
-    transform: scale(0.98);
+    transform: ${({ $isClickable }) => ($isClickable ? 'scale(0.98)' : 'none')};
   }
 
   ${({ $reverse }) =>
@@ -215,7 +215,7 @@ export const ProjectLink = styled.a`
   max-width: 250px;
   text-decoration: none;
   position: relative; 
-  z-index: 2; 
+  z-index: 10;
   
   &:hover {
     background-color: #171717;

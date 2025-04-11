@@ -31,6 +31,7 @@ const projectsData = [
       "Aplicação web para consulta de contratos públicos via API do PNCP, com backend em Java e frontend em React. Para mais detalhes, acesse o repositório no GitHub.",
     image: projeto1Image,
     link: "https://github.com/Parron01/TestePraticoNUTI",
+    githubLink: "https://github.com/Parron01/TestePraticoNUTI",
     techs: [
       { name: "Java", icon: <FaJava />, color: "#F89820" },
       { name: "React", icon: <FaReact />, color: "#61DAFB" },
@@ -44,9 +45,10 @@ const projectsData = [
     id: 2,
     title: "Plataforma de Pagamento",
     description:
-      "Sistema de pagamentos inspirado no PicPay, com autenticação JWT e controle de transações. Mais informações disponíveis no repositório do GitHub.",
+      "Sistema de pagamentos inspirado em teste prático do PicPay, com autenticação JWT e controle de transações. Mais informações disponíveis no repositório do GitHub.",
     image: projeto2Image,
     link: "https://simpleapp.parron01.com/login",
+    githubLink: "https://github.com/Parron01/SimpleAppFullStack-TestePratico", // novo campo para link do GitHub
     techs: [
       { name: "Java", icon: <FaJava />, color: "#F89820" },
       { name: "React", icon: <FaReact />, color: "#61DAFB" },
@@ -105,7 +107,10 @@ const Projects = () => {
   };
 
   const handleCardClick = (link) => {
-    window.open(link, "_blank");
+    // Só redireciona se for o projeto da Plataforma de Pagamento
+    if (link && link.includes('simpleapp.parron01.com')) {
+      window.open(link, "_blank");
+    }
   };
 
   const isMobile = windowWidth <= 1100;
@@ -120,6 +125,7 @@ const Projects = () => {
             $reverse={index % 2 !== 0}
             $index={index}
             onClick={() => handleCardClick(project.link)}
+            $isClickable={project.link.includes('simpleapp.parron01.com')}
           >
             {showIndicator && isMobile && (
               <CardTouchIndicator aria-hidden="true">
@@ -155,9 +161,13 @@ const Projects = () => {
                 ))}
               </TechStack>
               <ProjectLink 
-                href={project.link} 
+                href={project.githubLink || project.link} 
                 target="_blank"
-                onClick={(e) => e.stopPropagation()} // Prevent double navigation
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  window.open(project.githubLink || project.link, "_blank");
+                }}
               >
                 <GitHubIcon />
                 Acesse o repositório

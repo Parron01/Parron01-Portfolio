@@ -3,14 +3,17 @@ import { GlobalStyle } from "./styles/global";
 import { defaultTheme } from "./styles/themes/default";
 import { BrowserRouter } from "react-router-dom";
 import { Router } from "./Router";
+import { PortfolioProvider } from "./hooks/usePortfolioData";
 
 function App() {
   return (
     <BrowserRouter>
-          <ThemeProvider theme={defaultTheme}> {/* Aplica o tema padrão definido para a aplicação */}
-            <Router /> {/* Gerencia as rotas da aplicação */}
-            <GlobalStyle /> {/* Aplica os estilos globais */}
-          </ThemeProvider>
+      <PortfolioProvider>
+        <ThemeProvider theme={defaultTheme}>
+          <Router />
+          <GlobalStyle />
+        </ThemeProvider>
+      </PortfolioProvider>
     </BrowserRouter>
   );
 }
