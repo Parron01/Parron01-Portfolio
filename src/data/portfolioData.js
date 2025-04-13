@@ -44,43 +44,14 @@ export const projectsData = [
     link: "https://simpleapp.parron01.com/login",
     githubLink: "https://github.com/Parron01/SimpleAppFullStack-TestePratico",
     technologies: ["Java", "React", "PostgreSQL", "GitHub", "Docker", "Spring Boot"]
-  },
-  {
-    id: 3,
-    title: "Plataforma de Pagamento",
-    description:
-      "Sistema de pagamentos inspirado em teste prático do PicPay, com autenticação JWT e controle de transações. Mais informações disponíveis no repositório do GitHub.",
-    image: projeto2Image,
-    link: "https://simpleapp.parron01.com/login",
-    githubLink: "https://github.com/Parron01/SimpleAppFullStack-TestePratico",
-    technologies: ["Java", "React", "PostgreSQL", "GitHub", "Docker", "Spring Boot"]
-  },
+  }
+  
 ];
 
 // Dados das experiências
 export const experiencesData = [
   {
     id: 1,
-    company: "Empresa Fictícia A",
-    date: "Janeiro 2021 - Maio 2021",
-    role: "Desenvolvedor Frontend Jr.",
-    description:
-      "Atuei como desenvolvedor frontend implementando interfaces responsivas com React e JavaScript.",
-    color: "#4169E1",
-    technologies: ["React", "JavaScript", "Git"]
-  },
-  {
-    id: 2,
-    company: "Empresa Fictícia B",
-    date: "Junho 2021 - Dezembro 2021",
-    role: "Desenvolvedor Backend Jr.",
-    description:
-      "Trabalhei no desenvolvimento de APIs RESTful com Java e Spring Boot, integrando com bancos de dados PostgreSQL.",
-    color: "#4169E1",
-    technologies: ["Java", "Spring", "PostgreSQL", "GitHub"]
-  },
-  {
-    id: 3,
     company: "InfoCorp",
     date: "Agosto 2022 - Janeiro 2024",
     role: "Back End Developer",
@@ -90,7 +61,7 @@ export const experiencesData = [
     technologies: ["Java", "Spring", "PostgreSQL", "GitHub"]
   },
   {
-    id: 4,
+    id: 2,
     company: "Grupo Optimus",
     date: "Julho 2024 - Setembro 2024",
     role: "Estagiário Full Stack",
@@ -100,7 +71,7 @@ export const experiencesData = [
     technologies: ["Java", "Spring", "PostgreSQL", "React", "JavaScript","Python"]
   },
   {
-    id: 5,
+    id: 3,
     company: "NUTI - IC",
     date: "Outubro 2024",
     role: "Estagiário Full Stack",

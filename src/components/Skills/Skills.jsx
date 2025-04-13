@@ -18,6 +18,9 @@ import {
   TechPopupSectionTitle,
   TechPopupItem,
   TechPopupNoItems,
+  // Novos componentes para abas
+  TabsContainer,
+  Tab,
   // Componentes de paginação
   SkillsGridContainer,
   PaginationContainer,
@@ -49,6 +52,7 @@ const Skills = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isChanging, setIsChanging] = useState(false);
   const [slideDirection, setSlideDirection] = useState(null);
+  const [activeTab, setActiveTab] = useState('projects'); // Estado para controlar a aba ativa: 'projects' ou 'experiences'
   const popupRef = useRef(null);
   const cardRefs = useRef({});
 
@@ -125,6 +129,8 @@ const Skills = () => {
     } else {
       setPopupPosition({ top, left });
       setActivePopup(tech);
+      // Reset para a primeira aba ao abrir novo popup
+      setActiveTab('projects');
     }
   };
 
@@ -190,6 +196,14 @@ const Skills = () => {
     } else if (itemType === 'project') {
       navigateToProject(itemId);
     }
+  };
+
+  /**
+   * Alterna entre abas no popup
+   * @param {string} tab - Nome da aba ('projects' ou 'experiences')
+   */
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
   };
 
   if (isLoading) {
@@ -270,7 +284,7 @@ const Skills = () => {
         </SkillsGridContainer>
       </ContentWrapper>
       
-      {/* Tech Popup */}
+      {/* Tech Popup com abas */}
       {activePopup && (
         <TechPopup 
           ref={popupRef}
@@ -286,43 +300,63 @@ const Skills = () => {
             <TechPopupClose onClick={() => setActivePopup(null)}>×</TechPopupClose>
           </TechPopupHeader>
           
-          {/* Projetos */}
-          <TechPopupSection>
-            <TechPopupSectionTitle>Projetos:</TechPopupSectionTitle>
-            {activePopup.projects.length > 0 ? (
-              activePopup.projects.map(project => (
-                <TechPopupItem 
-                  key={project.id}
-                  onClick={(e) => handleItemClick(e, 'project', project.id)}
-                  className="clickable-item"
-                  style={{ cursor: 'pointer' }}
-                >
-                  {project.title}
-                </TechPopupItem>
-              ))
-            ) : (
-              <TechPopupNoItems>Nenhum projeto encontrado</TechPopupNoItems>
-            )}
-          </TechPopupSection>
+          {/* Sistema de abas */}
+          <TabsContainer>
+            <Tab 
+              $active={activeTab === 'projects'} 
+              onClick={() => handleTabChange('projects')}
+            >
+              Projetos
+            </Tab>
+            <Tab 
+              $active={activeTab === 'experiences'} 
+              onClick={() => handleTabChange('experiences')}
+            >
+              Experiências
+            </Tab>
+          </TabsContainer>
           
-          {/* Experiências */}
-          <TechPopupSection>
-            <TechPopupSectionTitle>Experiências:</TechPopupSectionTitle>
-            {activePopup.experiences.length > 0 ? (
-              activePopup.experiences.map(exp => (
-                <TechPopupItem 
-                  key={exp.id} 
-                  onClick={(e) => handleItemClick(e, 'experience', exp.id)}
-                  className="clickable-item"
-                  style={{ cursor: 'pointer' }}
-                >
-                  {exp.company} - {exp.role}
-                </TechPopupItem>
-              ))
-            ) : (
-              <TechPopupNoItems>Nenhuma experiência encontrada</TechPopupNoItems>
-            )}
-          </TechPopupSection>
+          {/* Conteúdo da aba projetos */}
+          {activeTab === 'projects' && (
+            <TechPopupSection $scrollable={activePopup.projects.length > 3}>
+              <TechPopupSectionTitle>Projetos:</TechPopupSectionTitle>
+              {activePopup.projects.length > 0 ? (
+                activePopup.projects.map(project => (
+                  <TechPopupItem 
+                    key={project.id}
+                    onClick={(e) => handleItemClick(e, 'project', project.id)}
+                    className="clickable-item"
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {project.title}
+                  </TechPopupItem>
+                ))
+              ) : (
+                <TechPopupNoItems>Nenhum projeto encontrado</TechPopupNoItems>
+              )}
+            </TechPopupSection>
+          )}
+          
+          {/* Conteúdo da aba experiências */}
+          {activeTab === 'experiences' && (
+            <TechPopupSection $scrollable={activePopup.experiences.length > 3}>
+              <TechPopupSectionTitle>Experiências:</TechPopupSectionTitle>
+              {activePopup.experiences.length > 0 ? (
+                activePopup.experiences.map(exp => (
+                  <TechPopupItem 
+                    key={exp.id} 
+                    onClick={(e) => handleItemClick(e, 'experience', exp.id)}
+                    className="clickable-item"
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {exp.company} - {exp.role}
+                  </TechPopupItem>
+                ))
+              ) : (
+                <TechPopupNoItems>Nenhuma experiência encontrada</TechPopupNoItems>
+              )}
+            </TechPopupSection>
+          )}
         </TechPopup>
       )}
     </SkillsContainer>

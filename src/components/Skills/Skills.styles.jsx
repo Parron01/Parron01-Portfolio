@@ -142,7 +142,7 @@ export const SkillProjects = styled.p`
   }
 `;
 
-// Novos estilos para o popup
+// Novos estilos para o popup com abas
 export const TechPopup = styled.div`
   position: fixed;
   z-index: 9999;
@@ -166,6 +166,13 @@ export const TechPopup = styled.div`
     background-color: white;
     transform: rotate(45deg);
     box-shadow: -3px -3px 5px rgba(0, 0, 0, 0.04);
+  }
+
+  @media (max-width: 480px) {
+    min-width: 250px;
+    max-width: 280px;
+    left: 50% !important;
+    transform: translateX(-50%);
   }
 `;
 
@@ -200,25 +207,83 @@ export const TechPopupClose = styled.button`
   }
 `;
 
+// Navegação por abas
+export const TabsContainer = styled.div`
+  display: flex;
+  border-bottom: 1px solid #eee;
+`;
+
+export const Tab = styled.button`
+  flex: 1;
+  padding: 10px;
+  background: ${props => props.$active ? '#4169E1' : 'transparent'};
+  color: ${props => props.$active ? 'white' : '#333'};
+  border: none;
+  cursor: pointer;
+  font-weight: ${props => props.$active ? '600' : '400'};
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: ${props => props.$active ? '#4169E1' : '#f0f0f0'};
+  }
+
+  &:first-child {
+    border-bottom-left-radius: ${props => props.$rounded ? '4px' : '0'};
+  }
+
+  &:last-child {
+    border-bottom-right-radius: ${props => props.$rounded ? '4px' : '0'};
+  }
+`;
+
 export const TechPopupSection = styled.div`
-  padding: 15px 20px;
+  padding: 0 20px; // Removido padding-top para título colar no header
+  max-height: ${props => props.$scrollable ? '180px' : 'auto'}; /* máximo height */
+  overflow-y: ${props => props.$scrollable ? 'auto' : 'visible'};
   border-bottom: 1px solid #eee;
   
   &:last-child {
     border-bottom: none;
+    padding-bottom: 15px;
+  }
+
+  /* Estilizando a barra de rolagem */
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
   }
 `;
 
 export const TechPopupSectionTitle = styled.h4`
-  margin: 0 0 10px 0;
+  margin: 0;
+  padding: 10px 0;
   font-size: 1rem;
   color: #4169E1;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 2;
+  border-bottom: 1px solid #eee;
 `;
 
 export const TechPopupItem = styled.div`
   padding: 6px 0;
   font-size: 0.9rem;
   color: #444;
+  margin-top: 5px; // Adicionado pequeno espaçamento do título
   
   &:not(:last-child) {
     border-bottom: 1px dotted #eee;
