@@ -45,6 +45,16 @@ export const projectsData = [
     githubLink: "https://github.com/Parron01/SimpleAppFullStack-TestePratico",
     technologies: ["Java", "React", "PostgreSQL", "GitHub", "Docker", "Spring Boot"]
   },
+  {
+    id: 3,
+    title: "Plataforma de Pagamento",
+    description:
+      "Sistema de pagamentos inspirado em teste prático do PicPay, com autenticação JWT e controle de transações. Mais informações disponíveis no repositório do GitHub.",
+    image: projeto2Image,
+    link: "https://simpleapp.parron01.com/login",
+    githubLink: "https://github.com/Parron01/SimpleAppFullStack-TestePratico",
+    technologies: ["Java", "React", "PostgreSQL", "GitHub", "Docker", "Spring Boot"]
+  },
 ];
 
 // Dados das experiências

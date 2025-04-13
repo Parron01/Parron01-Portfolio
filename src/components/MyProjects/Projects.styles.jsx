@@ -16,12 +16,97 @@ export const ProjectsTitle = styled.h2`
   margin-bottom: 2rem;
 `;
 
+// Wrapper para posicionar o grid e os controles de paginação
+export const ProjectsGridContainer = styled.div`
+  position: relative;
+  width: 75%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 export const ProjectGrid = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  width: 75%;
-  max-width: 1200px;
+  width: 100%;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: ${props => props.$isChanging ? '0' : '1'};
+  transform: translateX(${props => props.$slideDirection === 'right' ? '-20px' : props.$slideDirection === 'left' ? '20px' : '0'});
+`;
+
+// Container de paginação sem altura fixa
+export const PaginationContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none; // Para que não interfira nos cliques do grid
+  z-index: 5;
+`;
+
+export const PaginationArrow = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: ${props => props.disabled ? '#e0e0e0' : '#4169E1'};
+  color: ${props => props.disabled ? '#999' : 'white'};
+  border: none;
+  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
+  font-size: 1.2rem;
+  box-shadow: ${props => props.disabled ? 'none' : '0 2px 5px rgba(0, 0, 0, 0.1)'};
+  transition: all 0.3s ease;
+  pointer-events: auto; // Para que as setas sejam clicáveis
+  position: absolute;
+  top: 50%; // Centraliza verticalmente
+  transform: translateY(-50%);
+  
+  &:hover:not(:disabled) {
+    background: ${props => props.disabled ? '#e0e0e0' : '#2a4db9'};
+    box-shadow: ${props => props.disabled ? 'none' : '0 4px 8px rgba(0, 0, 0, 0.15)'};
+  }
+  
+  &:active:not(:disabled) {
+    transform: translateY(-50%) scale(0.95);
+  }
+  
+  &:focus {
+    outline: none;
+  }
+`;
+
+export const PrevArrow = styled(PaginationArrow)`
+  left: -50px;
+`;
+
+export const NextArrow = styled(PaginationArrow)`
+  right: -50px;
+`;
+
+export const PaginationIndicator = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 2rem;
+`;
+
+export const PageDot = styled.div`
+  width: ${props => props.$active ? '30px' : '20px'};
+  height: ${props => props.$active ? '8px' : '6px'};
+  border-radius: 3px;
+  background: ${props => props.$active ? '#4169E1' : '#ccc'};
+  transition: all 0.3s ease;
+  cursor: pointer;
+  
+  &:hover {
+    background: ${props => props.$active ? '#4169E1' : '#aaa'};
+  }
 `;
 
 const fadeInOut = keyframes`
@@ -57,7 +142,6 @@ export const CardTouchIndicator = styled.div`
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
   max-width: 80%; 
   text-align: center;
-  
   
   @media (max-width: 1100px) {
     width: auto;

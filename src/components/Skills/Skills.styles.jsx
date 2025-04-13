@@ -288,17 +288,21 @@ export const PaginationIndicator = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  margin-top: 1rem;
+  gap: 8px;
+  margin-top: 1.5rem;
 `;
 
 export const PageDot = styled.div`
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+  width: ${props => props.$active ? '30px' : '20px'};
+  height: ${props => props.$active ? '8px' : '6px'};
+  border-radius: 3px;
   background: ${props => props.$active ? '#4169E1' : '#ccc'};
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
   cursor: pointer;
+  
+  &:hover {
+    background: ${props => props.$active ? '#4169E1' : '#aaa'};
+  }
 `;
 
 // Wrapper para posicionar o grid e os controles de paginação
