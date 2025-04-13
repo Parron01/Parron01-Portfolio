@@ -21,6 +21,8 @@ export function PortfolioProvider({ children }) {
   const [techCounts, setTechCounts] = useState({});
   const [techItems, setTechItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  // Novo estado para rastrear a tecnologia destacada
+  const [highlightedTech, setHighlightedTech] = useState(null);
 
   // Calcular estatísticas de tecnologias quando o componente montar
   useEffect(() => {
@@ -114,6 +116,34 @@ export function PortfolioProvider({ children }) {
     calculateTechStats();
   }
 
+  /**
+   * Encontra a página em que uma tecnologia específica aparece
+   * @param {string} techName - Nome da tecnologia a ser encontrada
+   * @returns {number} Número da página (começando de 1) ou -1 se não encontrada
+   */
+  function findTechPage(techName) {
+    if (!techName || !techItems.length) return -1;
+    
+    const techIndex = techItems.findIndex(tech => tech.name === techName);
+    if (techIndex === -1) return -1;
+    
+    // Calcular a página com base no índice e itens por página (6)
+    return Math.floor(techIndex / 6) + 1;
+  }
+
+  /**
+   * Destaca uma tecnologia específica na seção de Skills
+   * @param {string} techName - Nome da tecnologia a ser destacada
+   */
+  function highlightTechnology(techName) {
+    setHighlightedTech(techName);
+    
+    // Reset highlight after animation completes
+    setTimeout(() => {
+      setHighlightedTech(null);
+    }, 2000);
+  }
+
   return (
     <PortfolioContext.Provider
       value={{
@@ -122,11 +152,14 @@ export function PortfolioProvider({ children }) {
         techCounts,
         techItems,
         isLoading,
+        highlightedTech,
         getProjectsByTechnology,
         getExperiencesByTechnology,
         addProject,
         addExperience,
-        calculateTechStats
+        calculateTechStats,
+        findTechPage,
+        highlightTechnology
       }}
     >
       {children}

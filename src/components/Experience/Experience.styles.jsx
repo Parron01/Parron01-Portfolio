@@ -214,7 +214,7 @@ export const TechPopup = styled.div`
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   border-radius: 8px;
   padding: 15px 20px;
-  min-width: 180px;
+  min-width: 200px;
   width: fit-content;
   box-sizing: border-box;
   transform: translateZ(0);
@@ -225,6 +225,8 @@ export const TechPopup = styled.div`
     font-size: 16px;
     color: #333;
     font-weight: 600;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
   }
   
   &:before {
@@ -247,12 +249,24 @@ export const TechPopup = styled.div`
 `;
 
 export const TechItem = styled.div`
-  padding: 6px 0;
+  padding: 8px;
   margin-bottom: 5px;
   font-size: 15px;
   color: ${props => props.color || '#333'};
   display: flex;
   align-items: center;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  
+  &:hover {
+    background-color: #f5f5f5;
+    transform: translateX(3px);
+  }
+  
+  &:active {
+    transform: translateX(1px);
+  }
   
   .tech-icon {
     margin-right: 10px;

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const SkillsContainer = styled.section`
   display: flex;
@@ -57,22 +57,32 @@ export const SkillsGrid = styled.div`
   }
 `;
 
+// Nova animação para destacar o card selecionado
+const pulseHighlight = keyframes`
+  0% { box-shadow: 0 0 0 0 rgba(65, 105, 225, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(65, 105, 225, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(65, 105, 225, 0); }
+`;
+
 export const SkillCard = styled.div`
   display: flex;
   align-items: center;
-  background: #fff;
+  background: ${props => props.$highlighted ? 'rgba(65, 105, 225, 0.1)' : '#fff'};
   padding: 1.5rem;
   border-radius: 10px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: ${props => props.$highlighted 
+    ? '0 0 0 2px #4169E1' 
+    : '2px 2px 10px rgba(0, 0, 0, 0.1)'};
   transition: all 0.3s ease;
   cursor: pointer;
   position: relative;
   z-index: 1;
+  animation: ${props => props.$highlighted ? pulseHighlight : 'none'} 2s infinite;
 
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    background: #fafafa;
+    background: ${props => props.$highlighted ? 'rgba(65, 105, 225, 0.1)' : '#fafafa'};
   }
   
   &:active {

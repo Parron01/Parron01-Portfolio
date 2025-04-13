@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-scroll";
 import { 
   FaTools, 
   FaChevronUp, 
@@ -25,6 +26,7 @@ import {
   ShowMoreContainer
 } from "./Experience.styles";
 import { experiencesData, techIconMap } from "../../data/portfolioData";
+import { usePortfolioData } from "../../hooks/usePortfolioData.jsx";
 
 const Experience = () => {
   // Número máximo de experiências a mostrar inicialmente
@@ -38,6 +40,9 @@ const Experience = () => {
   const popupRef = useRef(null);
   const techButtonsRef = useRef({});
   
+  // Hooks
+  const { highlightTechnology, findTechPage } = usePortfolioData();
+
   // Determinar quais experiências mostrar
   const visibleExperiences = showAllExperiences 
     ? experiencesData 
@@ -66,18 +71,25 @@ const Experience = () => {
       left: isMobile ? rect.right - 200 : rect.left,
     });
     
+    // Toggle popup aberto/fechado para este botão
     setActivePopup(activePopup === id ? null : id);
   };
   
+  // Removido o evento onMouseLeave que fechava o popup
+  // Em vez disso, vamos manter o popup aberto até que seja clicado fora
   const handleTechButtonHover = (e, id) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    
-    setPopupPosition({
-      top: rect.bottom + 10,
-      left: isMobile ? rect.right - 200 : rect.left,
-    });
-    
-    setActivePopup(id);
+    // Removido comportamento de fechar ao sair do hover
+    // O popup permanecerá aberto até que seja clicado em outro lugar
+    if (!activePopup) { // Só abre ao passar o mouse se não houver outro popup aberto
+      const rect = e.currentTarget.getBoundingClientRect();
+      
+      setPopupPosition({
+        top: rect.bottom + 10,
+        left: isMobile ? rect.right - 200 : rect.left,
+      });
+      
+      setActivePopup(id);
+    }
   };
   
   // Manipulador para o botão "Ver mais experiências"
@@ -133,6 +145,21 @@ const Experience = () => {
     e.stopPropagation();
   };
 
+  // Handle tech item click - redirecionamento para skills
+  const handleTechItemClick = (e, techName) => {
+    e.stopPropagation();
+    setActivePopup(null);
+    
+    // Destaca a tecnologia na seção Skills
+    highlightTechnology(techName);
+    
+    // Scroll até a seção Skills
+    const skillsSection = document.getElementById("skills");
+    if (skillsSection) {
+      skillsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <ExperienceContainer id="experience">
       <ContentWrapper>
@@ -172,7 +199,6 @@ const Experience = () => {
                 <TechButton 
                   ref={el => techButtonsRef.current[exp.id] = el}
                   onMouseEnter={(e) => !isMobile && handleTechButtonHover(e, exp.id)}
-                  onMouseLeave={() => !isMobile && setActivePopup(null)}
                   onClick={(e) => handleTechButtonClick(e, exp.id)}
                 >
                   <FaTools />
@@ -202,7 +228,14 @@ const Experience = () => {
             const tech = techIconMap[techName];
             const Icon = tech.icon;
             return (
-              <TechItem key={idx} color={tech.color}>
+              <TechItem 
+                key={idx} 
+                color={tech.color}
+                onClick={(e) => handleTechItemClick(e, techName)}
+                className="clickable-tech"
+                style={{ cursor: 'pointer' }}
+                title={`Ver ${techName} na seção de habilidades`}
+              >
                 <span className="tech-icon"><Icon /></span>
                 <span className="tech-name">{techName}</span>
               </TechItem>

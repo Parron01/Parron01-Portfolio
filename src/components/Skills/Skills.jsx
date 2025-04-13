@@ -36,7 +36,7 @@ const ITEMS_PER_PAGE = 6; // 2 linhas com 3 colunas = 6 itens por página
  * @returns {React.ReactElement} Componente de habilidades
  */
 const Skills = () => {
-  const { techItems, isLoading } = usePortfolioData();
+  const { techItems, isLoading, highlightedTech, findTechPage } = usePortfolioData();
   const [activePopup, setActivePopup] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [currentPage, setCurrentPage] = useState(1);
@@ -76,6 +76,21 @@ const Skills = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [activePopup]);
+
+  // Efeito para navegar até a tecnologia destacada
+  useEffect(() => {
+    if (highlightedTech && techItems.length > 0) {
+      // Encontrar a página onde a tecnologia está
+      const techPage = findTechPage(highlightedTech);
+      
+      // Se a tecnologia foi encontrada e está em uma página diferente
+      if (techPage > 0 && techPage !== currentPage) {
+        // Navegar para a página correta
+        const direction = techPage > currentPage ? 'left' : 'right';
+        animatePageChange(direction, techPage);
+      }
+    }
+  }, [highlightedTech, techItems]);
 
   /**
    * Manipula clique no card de habilidade mostrando popup com detalhes
@@ -204,6 +219,7 @@ const Skills = () => {
                 onClick={(e) => handleSkillClick(e, tech)}
                 role="button"
                 tabIndex={0}
+                $highlighted={tech.name === highlightedTech}
               >
                 <SkillIcon color={tech.color}>
                   {tech.icon && <tech.icon />}
