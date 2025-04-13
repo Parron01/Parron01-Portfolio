@@ -15,7 +15,7 @@ import {
   CopyrightText,
   ToastNotification,
 } from "./Footer.styles";
-import icon01 from "/src/assets/01-icon.png"; // Importando a imagem
+import icon01 from "/src/assets/01-icon.png"; 
 
 import { FaGithub, FaInstagram, FaLinkedin, FaEnvelope, FaCheck } from "react-icons/fa";
 

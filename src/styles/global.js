@@ -1,6 +1,14 @@
+/**
+ * Estilos globais da aplicação usando styled-components
+ * Define reset de CSS e estilos base para todo o aplicativo
+ */
 import { createGlobalStyle } from "styled-components";
 import "@fontsource/poppins";
 
+/**
+ * Estilos globais aplicados a toda a aplicação
+ * Inclui reset de CSS, configurações de fonte, e estilos base
+ */
 export const GlobalStyle = createGlobalStyle`
     *{
         margin: 0;

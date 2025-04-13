@@ -1,9 +1,19 @@
+/**
+ * Provedor de contexto e hook personalizado para gerenciar dados do portfólio
+ * Fornece acesso aos projetos, experiências e estatísticas de tecnologias utilizadas
+ */
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { projectsData, experiencesData, techIconMap } from "../data/portfolioData";
 
 // Criação do contexto para armazenar e compartilhar os dados do portfólio
 const PortfolioContext = createContext({});
 
+/**
+ * Componente provedor que fornece dados do portfólio para a árvore de componentes
+ * @param {Object} props - Propriedades do componente
+ * @param {React.ReactNode} props.children - Componentes filhos
+ * @returns {React.ReactElement} Provedor de contexto com os dados do portfólio
+ */
 export function PortfolioProvider({ children }) {
   // Estados para armazenar dados
   const [projects, setProjects] = useState(projectsData);
@@ -17,7 +27,10 @@ export function PortfolioProvider({ children }) {
     calculateTechStats();
   }, []);
 
-  // Função para calcular estatísticas de tecnologias
+  /**
+   * Calcula estatísticas de uso de tecnologias nos projetos e experiências
+   * Ordena as tecnologias da mais usada para a menos usada
+   */
   function calculateTechStats() {
     setIsLoading(true);
     try {
@@ -38,7 +51,7 @@ export function PortfolioProvider({ children }) {
         });
       });
 
-      // Processar experiências (cada experiência conta como um projeto na contagem)
+      // Processar experiências
       experiences.forEach(exp => {
         exp.technologies.forEach(tech => {
           if (!counts[tech]) {
@@ -65,8 +78,11 @@ export function PortfolioProvider({ children }) {
         };
       });
 
+      // Ordenar por contagem (do maior para o menor)
+      const sortedItems = items.sort((a, b) => b.count - a.count);
+
       setTechCounts(counts);
-      setTechItems(items);
+      setTechItems(sortedItems);
     } catch (error) {
       console.error("Erro ao calcular estatísticas de tecnologias:", error);
     } finally {
@@ -74,7 +90,8 @@ export function PortfolioProvider({ children }) {
     }
   }
 
-  // Restante do código permanece igual...
+  // ... resto do código permanece igual
+  
   function getProjectsByTechnology(technology) {
     return projects.filter(project => 
       project.technologies.includes(technology)
@@ -117,7 +134,11 @@ export function PortfolioProvider({ children }) {
   );
 }
 
-// Hook personalizado para usar o contexto de Portfolio
+/**
+ * Hook personalizado para usar o contexto de Portfolio
+ * @returns {Object} O contexto com dados e funções do portfólio
+ * @throws {Error} Se usado fora de um PortfolioProvider
+ */
 export function usePortfolioData() {
   const context = useContext(PortfolioContext);
 

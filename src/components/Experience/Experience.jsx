@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { 
-  FaTools, FaJava, FaGithub, FaReact, FaDatabase, 
-  FaLeaf, FaCode, FaWindowMaximize, FaJs, FaLayerGroup 
+  FaTools
 } from "react-icons/fa";
 import {
   ExperienceContainer,
@@ -21,54 +20,7 @@ import {
   TechItem,
   CompanyInfoContainer,
 } from "./Experience.styles";
-
-const experiences = [
-  {
-    id: 1,
-    company: "InfoCorp",
-    date: "Agosto 2022 - Janeiro 2024",
-    role: "Back End Developer",
-    description:
-      "Na empresa junior da UFMT, do bloco do Instituto de Computação, eu atuei como desenvolvedor Back End em Java com Spring, PostgreSQL e GitHub.",
-    color: "#4169E1",
-    technologies: [
-      { name: "Java", color: "#f89820", icon: <FaJava /> },
-      { name: "Spring", color: "#6DB33F", icon: <FaLeaf /> },
-      { name: "PostgreSQL", color: "#336791", icon: <FaDatabase /> },
-      { name: "GitHub", color: "#181717", icon: <FaGithub /> }
-    ]
-  },
-  {
-    id: 2,
-    company: "Grupo Optimus",
-    date: "Julho 2024 - Setembro 2024",
-    role: "Estagiário Full Stack",
-    description:
-      "Atuei como desenvolvedor Full Stack com Java e Spring com PostgreSQL e React com JavaScript, MUI.",
-    color: "#4169E1",
-    technologies: [
-      { name: "Java", color: "#f89820", icon: <FaJava /> },
-      { name: "Spring", color: "#6DB33F", icon: <FaLeaf /> },
-      { name: "PostgreSQL", color: "#336791", icon: <FaDatabase /> },
-      { name: "React", color: "#61DAFB", icon: <FaReact /> },
-      { name: "JavaScript", color: "#F7DF1E", icon: <FaJs /> }
-    ]
-  },
-  {
-    id: 3,
-    company: "NUTI - IC",
-    date: "Outubro 2024",
-    role: "Estagiário Full Stack",
-    description:
-      "Atuei como desenvolvedor Full Stack com C# na plataforma .NET com front-end integrado em estrutura ASP.NET MVC.",
-    color: "#4169E1",
-    technologies: [
-      { name: "C#", color: "#239120", icon: <FaCode /> },
-      { name: ".NET", color: "#512BD4", icon: <FaWindowMaximize /> },
-      { name: "ASP.NET MVC", color: "#0090F1", icon: <FaCode /> }
-    ]
-  },
-];
+import { experiencesData, techIconMap } from "../../data/portfolioData";
 
 const Experience = () => {
   const [activePopup, setActivePopup] = useState(null);
@@ -167,7 +119,7 @@ const Experience = () => {
         {/* Central timeline line */}
         <TimelineLine />
         
-        {experiences.map((exp, index) => (
+        {experiencesData.map((exp, index) => (
           <ExperienceRow key={exp.id}>
             <LeftColumn>
               <CompanyInfoContainer>
@@ -204,12 +156,16 @@ const Experience = () => {
           style={{ top: `${popupPosition.top}px`, left: `${popupPosition.left}px` }}
         >
           <h4>Tecnologias:</h4>
-          {experiences.find(exp => exp.id === activePopup).technologies.map((tech, idx) => (
-            <TechItem key={idx} color={tech.color}>
-              <span className="tech-icon">{tech.icon}</span>
-              <span className="tech-name">{tech.name}</span>
-            </TechItem>
-          ))}
+          {experiencesData.find(exp => exp.id === activePopup).technologies.map((techName, idx) => {
+            const tech = techIconMap[techName];
+            const Icon = tech.icon;
+            return (
+              <TechItem key={idx} color={tech.color}>
+                <span className="tech-icon"><Icon /></span>
+                <span className="tech-name">{techName}</span>
+              </TechItem>
+            );
+          })}
         </TechPopup>
       )}
     </ExperienceContainer>

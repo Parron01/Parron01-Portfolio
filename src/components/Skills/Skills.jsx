@@ -18,7 +18,7 @@ import {
   TechPopupSectionTitle,
   TechPopupItem,
   TechPopupNoItems,
-  // Novos componentes de paginação
+  // Componentes de paginação
   SkillsGridContainer,
   PaginationContainer,
   PrevArrow,
@@ -27,10 +27,14 @@ import {
   PageDot
 } from "./Skills.styles";
 
-import { usePortfolioData } from "../../hooks/usePortfolioData";
+import { usePortfolioData } from "../../hooks/usePortfolioData.jsx"; // Usando .jsx para evitar confusão
 
 const ITEMS_PER_PAGE = 6; // 2 linhas com 3 colunas = 6 itens por página
 
+/**
+ * Componente de exibição das habilidades técnicas, ordenadas por frequência de uso
+ * @returns {React.ReactElement} Componente de habilidades
+ */
 const Skills = () => {
   const { techItems, isLoading } = usePortfolioData();
   const [activePopup, setActivePopup] = useState(null);
@@ -73,6 +77,11 @@ const Skills = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [activePopup]);
 
+  /**
+   * Manipula clique no card de habilidade mostrando popup com detalhes
+   * @param {Event} e - Evento do clique
+   * @param {Object} tech - Objeto com dados da tecnologia selecionada
+   */
   const handleSkillClick = (e, tech) => {
     e.stopPropagation();
     
@@ -97,7 +106,13 @@ const Skills = () => {
     }
   };
 
+  /**
+   * Retorna os itens de tecnologia para a página atual
+   * Mantém a ordenação por frequência de uso (maior para menor)
+   * @returns {Array} Lista de tecnologias para a página atual
+   */
   const getCurrentPageItems = () => {
+    // techItems já está ordenado por count do maior para o menor
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
     return techItems.slice(startIndex, endIndex);
@@ -177,7 +192,7 @@ const Skills = () => {
             </NextArrow>
           </PaginationContainer>
           
-          {/* Grid de habilidades */}
+          {/* Grid de habilidades com itens ordenados por frequência */}
           <SkillsGrid 
             $isChanging={isChanging}
             $slideDirection={slideDirection}
@@ -218,15 +233,15 @@ const Skills = () => {
         </SkillsGridContainer>
       </ContentWrapper>
       
-      {/* Tech Popup - Mover para fora do SkillsContainer */}
+      {/* Tech Popup */}
       {activePopup && (
         <TechPopup 
           ref={popupRef}
           style={{ 
             top: `${popupPosition.top}px`, 
             left: `${popupPosition.left}px`,
-            position: 'fixed', // Garantir que está fixed
-            zIndex: 9999 // Garantir que está acima de tudo
+            position: 'fixed',
+            zIndex: 9999
           }}
         >
           <TechPopupHeader>

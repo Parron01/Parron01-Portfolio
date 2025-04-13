@@ -17,48 +17,8 @@ import {
   TapText,
 } from "./Projects.styles";
 
-import { FaJava, FaReact, FaDatabase, FaGithub, FaDocker, FaHandPointer } from "react-icons/fa";
-import { SiSpringboot } from "react-icons/si";
-import projeto1Image from "/src/assets/projeto1.png";
-import projeto2Image from "/src/assets/projeto2.png";
-
-// Dados dos projetos (facilitando expansão futura)
-const projectsData = [
-  {
-    id: 1,
-    title: "Consulta de Contratos Públicos",
-    description:
-      "Aplicação web para consulta de contratos públicos via API do PNCP, com backend em Java e frontend em React. Para mais detalhes, acesse o repositório no GitHub.",
-    image: projeto1Image,
-    link: "https://github.com/Parron01/TestePraticoNUTI",
-    githubLink: "https://github.com/Parron01/TestePraticoNUTI",
-    techs: [
-      { name: "Java", icon: <FaJava />, color: "#F89820" },
-      { name: "React", icon: <FaReact />, color: "#61DAFB" },
-      { name: "PostgreSQL", icon: <FaDatabase />, color: "#336791" },
-      { name: "Git", icon: <FaGithub />, color: "#000000" },
-      { name: "Docker", icon: <FaDocker />, color: "#2496ED" },
-      { name: "Spring Boot", icon: <SiSpringboot />, color: "#6DB33F" },
-    ],
-  },
-  {
-    id: 2,
-    title: "Plataforma de Pagamento",
-    description:
-      "Sistema de pagamentos inspirado em teste prático do PicPay, com autenticação JWT e controle de transações. Mais informações disponíveis no repositório do GitHub.",
-    image: projeto2Image,
-    link: "https://simpleapp.parron01.com/login",
-    githubLink: "https://github.com/Parron01/SimpleAppFullStack-TestePratico", // novo campo para link do GitHub
-    techs: [
-      { name: "Java", icon: <FaJava />, color: "#F89820" },
-      { name: "React", icon: <FaReact />, color: "#61DAFB" },
-      { name: "PostgreSQL", icon: <FaDatabase />, color: "#336791" },
-      { name: "Git", icon: <FaGithub />, color: "#000000" },
-      { name: "Docker", icon: <FaDocker />, color: "#2496ED" },
-      { name: "Spring Boot", icon: <SiSpringboot />, color: "#6DB33F" },
-    ],
-  },
-];
+import { FaHandPointer } from "react-icons/fa";
+import { projectsData, techIconMap } from "../../data/portfolioData";
 
 const Projects = () => {
   const [activeTooltip, setActiveTooltip] = useState({ projectId: null, techIndex: null });
@@ -143,22 +103,26 @@ const Projects = () => {
               <ProjectTitle>{project.title}</ProjectTitle>
               <ProjectDescription>{project.description}</ProjectDescription>
               <TechStack>
-                {project.techs.map((tech, techIndex) => (
-                  <TechItem 
-                    key={techIndex} 
-                    color={tech.color} 
-                    title={tech.name}
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevent card click
-                      handleTechClick(project.id, techIndex);
-                    }}
-                  >
-                    {tech.icon}
-                    <Tooltip $visible={activeTooltip.projectId === project.id && activeTooltip.techIndex === techIndex}>
-                      {tech.name}
-                    </Tooltip>
-                  </TechItem>
-                ))}
+                {project.technologies.map((techName, techIndex) => {
+                  const tech = techIconMap[techName];
+                  const Icon = tech.icon;
+                  return (
+                    <TechItem 
+                      key={techIndex} 
+                      color={tech.color} 
+                      title={techName}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleTechClick(project.id, techIndex);
+                      }}
+                    >
+                      <Icon />
+                      <Tooltip $visible={activeTooltip.projectId === project.id && activeTooltip.techIndex === techIndex}>
+                        {techName}
+                      </Tooltip>
+                    </TechItem>
+                  );
+                })}
               </TechStack>
               <ProjectLink 
                 href={project.githubLink || project.link} 
