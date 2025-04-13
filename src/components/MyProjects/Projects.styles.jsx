@@ -122,6 +122,13 @@ const pulseAnimation = keyframes`
   100% { transform: scale(1); opacity: 0.8; }
 `;
 
+// Nova animação para destacar o card do projeto
+const pulseHighlight = keyframes`
+  0% { box-shadow: 0 0 0 0 rgba(65, 105, 225, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(65, 105, 225, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(65, 105, 225, 0); }
+`;
+
 export const CardTouchIndicator = styled.div`
   position: absolute;
   top: 50%;
@@ -165,7 +172,9 @@ export const ProjectCard = styled.div`
   background: white;
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: ${props => props.$highlighted 
+    ? '0 0 0 2px #4169E1' 
+    : '2px 2px 10px rgba(0, 0, 0, 0.1)'};
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 1px solid rgb(47, 47, 47);
   width: 67%;
@@ -173,10 +182,15 @@ export const ProjectCard = styled.div`
   margin-left: ${({ $index }) => ($index % 2 !== 0 ? 'auto' : '0')};
   cursor: ${({ $isClickable }) => ($isClickable ? 'pointer' : 'default')};
   position: relative;
+  animation: ${props => props.$highlighted ? pulseHighlight : 'none'} 2s infinite;
+  background: ${props => props.$highlighted ? 'rgba(65, 105, 225, 0.1)' : 'white'};
 
   &:hover {
     transform: ${({ $isClickable }) => ($isClickable ? 'scale(1.02)' : 'none')};
-    box-shadow: ${({ $isClickable }) => ($isClickable ? '0 5px 15px rgba(0, 0, 0, 0.2)' : '2px 2px 10px rgba(0, 0, 0, 0.1)')};
+    box-shadow: ${({ $isClickable, $highlighted }) => 
+      $highlighted 
+        ? '0 0 0 2px #4169E1' 
+        : ($isClickable ? '0 5px 15px rgba(0, 0, 0, 0.2)' : '2px 2px 10px rgba(0, 0, 0, 0.1)')};
   }
   
   &:active {

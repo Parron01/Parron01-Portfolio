@@ -36,12 +36,16 @@ const Experience = () => {
   const [activePopup, setActivePopup] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
-  const [showAllExperiences, setShowAllExperiences] = useState(false);
   const popupRef = useRef(null);
   const techButtonsRef = useRef({});
   
   // Hooks
-  const { highlightTechnology, findTechPage } = usePortfolioData();
+  const { 
+    highlightTechnology, 
+    showAllExperiences, 
+    setShowAllExperiences,
+    highlightedExperience
+  } = usePortfolioData();
 
   // Determinar quais experiências mostrar
   const visibleExperiences = showAllExperiences 
@@ -189,7 +193,10 @@ const Experience = () => {
         
         {/* Linhas de experiência */}
         {visibleExperiences.map((exp, index) => (
-          <ExperienceRow key={exp.id}>
+          <ExperienceRow 
+            key={exp.id}
+            $highlighted={exp.id === highlightedExperience}
+          >
             <LeftColumn>
               <CompanyInfoContainer>
                 <div>

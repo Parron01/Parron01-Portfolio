@@ -26,6 +26,7 @@ import {
 } from "./Projects.styles";
 
 import { projectsData, techIconMap } from "../../data/portfolioData";
+import { usePortfolioData } from "../../hooks/usePortfolioData.jsx"; // Adicionando a importação do hook
 
 const Projects = () => {
   const PROJECTS_PER_PAGE = 2; // Número de projetos por página
@@ -38,6 +39,9 @@ const Projects = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isChanging, setIsChanging] = useState(false);
   const [slideDirection, setSlideDirection] = useState(null);
+  
+  // Importar estado de página-alvo e projeto destacado do contexto
+  const { targetProjectPage, setTargetProjectPage, highlightedProject } = usePortfolioData();
   
   // Calcular número total de páginas
   const totalPages = Math.ceil(projectsData.length / PROJECTS_PER_PAGE);
@@ -137,6 +141,17 @@ const Projects = () => {
 
   const isMobile = windowWidth <= 1100;
 
+  // Efeito para monitorar mudança na página-alvo (quando um projeto for selecionado)
+  useEffect(() => {
+    if (targetProjectPage && targetProjectPage !== currentPage) {
+      const direction = targetProjectPage > currentPage ? 'left' : 'right';
+      animatePageChange(direction, targetProjectPage);
+      
+      // Resetar o estado depois de navegar
+      setTargetProjectPage(null);
+    }
+  }, [targetProjectPage]);
+
   return (
     <ProjectsContainer id="projects">
       <ProjectsTitle>Meus Projetos</ProjectsTitle>
@@ -175,6 +190,7 @@ const Projects = () => {
               $index={index}
               onClick={() => handleCardClick(project.link)}
               $isClickable={project.link.includes('simpleapp.parron01.com')}
+              $highlighted={project.id === highlightedProject}
             >
               {showIndicator && isMobile && (
                 <CardTouchIndicator aria-hidden="true">

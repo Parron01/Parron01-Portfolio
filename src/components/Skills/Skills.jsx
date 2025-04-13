@@ -36,7 +36,14 @@ const ITEMS_PER_PAGE = 6; // 2 linhas com 3 colunas = 6 itens por página
  * @returns {React.ReactElement} Componente de habilidades
  */
 const Skills = () => {
-  const { techItems, isLoading, highlightedTech, findTechPage } = usePortfolioData();
+  const { 
+    techItems, 
+    isLoading, 
+    highlightedTech, 
+    findTechPage,
+    navigateToExperience,
+    navigateToProject 
+  } = usePortfolioData();
   const [activePopup, setActivePopup] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [currentPage, setCurrentPage] = useState(1);
@@ -171,6 +178,20 @@ const Skills = () => {
     }
   };
 
+  /**
+   * Manipula o clique em um item de projeto ou experiência no popup
+   */
+  const handleItemClick = (e, itemType, itemId) => {
+    e.stopPropagation();
+    setActivePopup(null);
+    
+    if (itemType === 'experience') {
+      navigateToExperience(itemId);
+    } else if (itemType === 'project') {
+      navigateToProject(itemId);
+    }
+  };
+
   if (isLoading) {
     return (
       <SkillsContainer id="skills">
@@ -270,7 +291,12 @@ const Skills = () => {
             <TechPopupSectionTitle>Projetos:</TechPopupSectionTitle>
             {activePopup.projects.length > 0 ? (
               activePopup.projects.map(project => (
-                <TechPopupItem key={project.id}>
+                <TechPopupItem 
+                  key={project.id}
+                  onClick={(e) => handleItemClick(e, 'project', project.id)}
+                  className="clickable-item"
+                  style={{ cursor: 'pointer' }}
+                >
                   {project.title}
                 </TechPopupItem>
               ))
@@ -284,7 +310,12 @@ const Skills = () => {
             <TechPopupSectionTitle>Experiências:</TechPopupSectionTitle>
             {activePopup.experiences.length > 0 ? (
               activePopup.experiences.map(exp => (
-                <TechPopupItem key={exp.id}>
+                <TechPopupItem 
+                  key={exp.id} 
+                  onClick={(e) => handleItemClick(e, 'experience', exp.id)}
+                  className="clickable-item"
+                  style={{ cursor: 'pointer' }}
+                >
                   {exp.company} - {exp.role}
                 </TechPopupItem>
               ))

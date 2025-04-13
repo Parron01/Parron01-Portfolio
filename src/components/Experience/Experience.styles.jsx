@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 
 // Animação para fade in
 const fadeIn = keyframes`
@@ -10,6 +10,13 @@ const fadeIn = keyframes`
     opacity: 1;
     transform: translateY(0);
   }
+`;
+
+// Nova animação para destacar a experiência selecionada
+const pulseHighlight = keyframes`
+  0% { box-shadow: 0 0 0 0 rgba(65, 105, 225, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(65, 105, 225, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(65, 105, 225, 0); }
 `;
 
 export const ExperienceContainer = styled.section`
@@ -92,6 +99,25 @@ export const ExperienceRow = styled.div`
   
   /* Animação para novos elementos */
   animation: ${fadeIn} 0.5s ease-out;
+  
+  /* Estilo e animação para experiências destacadas */
+  ${props => props.$highlighted && css`
+    background-color: rgba(65, 105, 225, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 0 0 2px #4169E1;
+    animation: ${pulseHighlight} 2s infinite;
+    padding: 1.5rem;
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    width: calc(100% + 3rem);
+  `}
+  
+  @media (max-width: 900px) {
+    ${props => props.$highlighted && css`
+      margin-left: -0.5rem;
+      width: calc(100% + 1rem);
+    `}
+  }
 `;
 
 export const LeftColumn = styled.div`

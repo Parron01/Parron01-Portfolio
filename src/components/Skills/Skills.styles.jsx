@@ -223,6 +223,23 @@ export const TechPopupItem = styled.div`
   &:not(:last-child) {
     border-bottom: 1px dotted #eee;
   }
+  
+  &.clickable-item {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 8px 6px;
+    border-radius: 4px;
+    
+    &:hover {
+      background-color: #f5f5f5;
+      transform: translateX(3px);
+      color: #4169E1;
+    }
+    
+    &:active {
+      transform: translateX(1px);
+    }
+  }
 `;
 
 export const TechPopupNoItems = styled.div`

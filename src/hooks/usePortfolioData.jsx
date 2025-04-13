@@ -23,6 +23,13 @@ export function PortfolioProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   // Novo estado para rastrear a tecnologia destacada
   const [highlightedTech, setHighlightedTech] = useState(null);
+  // Novos estados para rastrear itens destacados
+  const [highlightedExperience, setHighlightedExperience] = useState(null);
+  const [highlightedProject, setHighlightedProject] = useState(null);
+  // Estado para controlar a expansão de experiências antigas
+  const [showAllExperiences, setShowAllExperiences] = useState(false);
+  // Estado para rastrear a página atual de projetos
+  const [targetProjectPage, setTargetProjectPage] = useState(null);
 
   // Calcular estatísticas de tecnologias quando o componente montar
   useEffect(() => {
@@ -144,6 +151,107 @@ export function PortfolioProvider({ children }) {
     }, 3000);
   }
 
+  /**
+   * Destaca uma experiência específica na seção de Experience
+   * @param {number} expId - ID da experiência a ser destacada
+   */
+  function highlightExperience(expId) {
+    setHighlightedExperience(expId);
+    
+    // Reset highlight after animation completes
+    setTimeout(() => {
+      setHighlightedExperience(null);
+    }, 3000);
+  }
+
+  /**
+   * Destaca um projeto específico na seção de Projects
+   * @param {number} projectId - ID do projeto a ser destacado
+   */
+  function highlightProject(projectId) {
+    setHighlightedProject(projectId);
+    
+    // Reset highlight after animation completes
+    setTimeout(() => {
+      setHighlightedProject(null);
+    }, 3000);
+  }
+
+  /**
+   * Encontra a página onde um projeto específico está localizado
+   * @param {number} projectId - ID do projeto
+   * @returns {number} Número da página (começando em 1) ou -1 se não encontrado
+   */
+  function findProjectPage(projectId) {
+    if (!projectId || !projects.length) return -1;
+    
+    const projectIndex = projects.findIndex(project => project.id === projectId);
+    if (projectIndex === -1) return -1;
+    
+    // Calcular a página com base no índice e itens por página (2)
+    return Math.floor(projectIndex / 2) + 1;
+  }
+
+  /**
+   * Verifica se uma experiência está nas experiências visíveis (últimas 3)
+   * @param {number} expId - ID da experiência
+   * @returns {boolean} - True se está entre as experiências visíveis
+   */
+  function isExperienceVisible(expId) {
+    if (showAllExperiences) return true;
+    
+    const exp = experiences.find(exp => exp.id === expId);
+    if (!exp) return false;
+    
+    // Verifica se está entre as 3 últimas experiências
+    const visibleExps = experiences.slice(-3);
+    return visibleExps.some(e => e.id === expId);
+  }
+
+  /**
+   * Navega para uma experiência específica
+   * @param {number} expId - ID da experiência
+   */
+  function navigateToExperience(expId) {
+    // Expande as experiências se necessário
+    if (!isExperienceVisible(expId)) {
+      setShowAllExperiences(true);
+    }
+    
+    // Dá tempo para a renderização e depois faz scroll
+    setTimeout(() => {
+      const experienceSection = document.getElementById("experience");
+      if (experienceSection) {
+        experienceSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // Destaca a experiência após o scroll
+        highlightExperience(expId);
+      }
+    }, 100);
+  }
+
+  /**
+   * Navega para um projeto específico
+   * @param {number} projectId - ID do projeto
+   */
+  function navigateToProject(projectId) {
+    const projectPage = findProjectPage(projectId);
+    if (projectPage > 0) {
+      setTargetProjectPage(projectPage);
+      
+      // Dá tempo para a renderização e depois faz scroll
+      setTimeout(() => {
+        const projectsSection = document.getElementById("projects");
+        if (projectsSection) {
+          projectsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          
+          // Destaca o projeto após o scroll
+          highlightProject(projectId);
+        }
+      }, 100);
+    }
+  }
+
   return (
     <PortfolioContext.Provider
       value={{
@@ -153,13 +261,25 @@ export function PortfolioProvider({ children }) {
         techItems,
         isLoading,
         highlightedTech,
+        highlightedExperience,
+        highlightedProject,
         getProjectsByTechnology,
         getExperiencesByTechnology,
         addProject,
         addExperience,
         calculateTechStats,
         findTechPage,
-        highlightTechnology
+        highlightTechnology,
+        highlightExperience,
+        highlightProject,
+        showAllExperiences,
+        setShowAllExperiences,
+        targetProjectPage,
+        setTargetProjectPage,
+        findProjectPage,
+        isExperienceVisible,
+        navigateToExperience,
+        navigateToProject
       }}
     >
       {children}
