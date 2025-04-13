@@ -234,21 +234,13 @@ export const TechPopupNoItems = styled.div`
 
 // Adicionar novos estilos para paginação
 export const PaginationContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 22rem;
   position: absolute;
-  @media (max-width: 1100px) {
-    height: 28rem;
-  }
-  @media (max-width: 768px) {
-    height: 22rem;
-  }
-  @media (max-width: 600px) {
-    height: 42rem;
-  }
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none; // Para que não interfira nos cliques do grid
+  z-index: 5;
 `;
 
 export const PaginationArrow = styled.button`
@@ -265,10 +257,10 @@ export const PaginationArrow = styled.button`
   font-size: 1.2rem;
   box-shadow: ${props => props.disabled ? 'none' : '0 2px 5px rgba(0, 0, 0, 0.1)'};
   transition: all 0.3s ease;
+  pointer-events: auto; // Para que as setas sejam clicáveis
   position: absolute;
-  top: 50%;
+  top: 50%; // Centraliza verticalmente
   transform: translateY(-50%);
-  z-index: 5;
   
   &:hover:not(:disabled) {
     background: ${props => props.disabled ? '#e0e0e0' : '#2a4db9'};
@@ -285,25 +277,11 @@ export const PaginationArrow = styled.button`
 `;
 
 export const PrevArrow = styled(PaginationArrow)`
-  position: absolute;
-  left: -30px; 
-  top: 50%; 
-  transform: translateY(-50%); 
-  
-  @media (max-width: 768px) {
-    left: -30px; 
-  }
+  left: -20px;
 `;
 
 export const NextArrow = styled(PaginationArrow)`
-  position: absolute;
-  right: -30px; 
-  top: 50%; 
-  transform: translateY(-50%); 
-  
-  @media (max-width: 768px) {
-    right: -30px; 
-  }
+  right: -20px;
 `;
 
 export const PaginationIndicator = styled.div`

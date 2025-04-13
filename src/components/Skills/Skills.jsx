@@ -188,7 +188,7 @@ const Skills = () => {
         <SkillsTitle>Habilidades</SkillsTitle>
         
         <SkillsGridContainer>
-          {/* Controles de paginação */}
+          {/* Container de paginação envolve o grid */}
           <PaginationContainer>
             <PrevArrow 
               onClick={prevPage} 
@@ -207,7 +207,7 @@ const Skills = () => {
             </NextArrow>
           </PaginationContainer>
           
-          {/* Grid de habilidades com itens ordenados por frequência */}
+          {/* Grid de habilidades */}
           <SkillsGrid 
             $isChanging={isChanging}
             $slideDirection={slideDirection}

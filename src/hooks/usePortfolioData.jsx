@@ -141,7 +141,7 @@ export function PortfolioProvider({ children }) {
     // Reset highlight after animation completes
     setTimeout(() => {
       setHighlightedTech(null);
-    }, 2000);
+    }, 3000);
   }
 
   return (
