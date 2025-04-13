@@ -1,4 +1,16 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+// Animação para fade in
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 export const ExperienceContainer = styled.section`
   display: flex;
@@ -45,6 +57,18 @@ export const TimelineLine = styled.div`
     left: 15px;
     transform: none;
   }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
+  }
 `;
 
 export const ExperienceRow = styled.div`
@@ -65,6 +89,9 @@ export const ExperienceRow = styled.div`
     margin-bottom: 5rem;
     gap: 1rem;
   }
+  
+  /* Animação para novos elementos */
+  animation: ${fadeIn} 0.5s ease-out;
 `;
 
 export const LeftColumn = styled.div`
@@ -243,4 +270,45 @@ export const TechItem = styled.div`
   .tech-name {
     font-weight: 500;
   }
+`;
+
+// Botão para expandir experiências anteriores
+export const ShowMoreButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  color: #4169E1;
+  border: 2px solid #4169E1;
+  border-radius: 50px;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0 auto 2rem auto;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 5;
+  
+  &:hover {
+    background-color: #4169E1;
+    color: white;
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+  
+  svg {
+    margin-right: 8px;
+  }
+`;
+
+// Contêiner para o botão mostrar mais
+export const ShowMoreContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  margin-bottom: 2rem;
 `;

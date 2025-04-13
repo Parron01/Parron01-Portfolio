@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { 
-  FaTools
+  FaTools, 
+  FaChevronUp, 
+  FaHistory
 } from "react-icons/fa";
 import {
   ExperienceContainer,
@@ -19,15 +21,30 @@ import {
   TechPopup,
   TechItem,
   CompanyInfoContainer,
+  ShowMoreButton,
+  ShowMoreContainer
 } from "./Experience.styles";
 import { experiencesData, techIconMap } from "../../data/portfolioData";
 
 const Experience = () => {
+  // Número máximo de experiências a mostrar inicialmente
+  const MAX_VISIBLE_EXPERIENCES = 3;
+
+  // Estados
   const [activePopup, setActivePopup] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
+  const [showAllExperiences, setShowAllExperiences] = useState(false);
   const popupRef = useRef(null);
   const techButtonsRef = useRef({});
+  
+  // Determinar quais experiências mostrar
+  const visibleExperiences = showAllExperiences 
+    ? experiencesData 
+    : experiencesData.slice(-MAX_VISIBLE_EXPERIENCES);
+  
+  // Verificar se há mais experiências a mostrar
+  const hasMoreExperiences = experiencesData.length > MAX_VISIBLE_EXPERIENCES;
   
   useEffect(() => {
     const handleResize = () => {
@@ -61,6 +78,13 @@ const Experience = () => {
     });
     
     setActivePopup(id);
+  };
+  
+  // Manipulador para o botão "Ver mais experiências"
+  const handleToggleExperiences = () => {
+    setShowAllExperiences(prev => !prev);
+    // Fechamos qualquer popup aberto ao alternar as experiências
+    setActivePopup(null);
   };
   
   // Close popup when clicking outside
@@ -119,7 +143,25 @@ const Experience = () => {
         {/* Central timeline line */}
         <TimelineLine />
         
-        {experiencesData.map((exp, index) => (
+        {/* Botão "Ver mais experiências" se houver mais que MAX_VISIBLE_EXPERIENCES */}
+        {hasMoreExperiences && (
+          <ShowMoreContainer>
+            <ShowMoreButton onClick={handleToggleExperiences}>
+              {showAllExperiences ? (
+                <>
+                  <FaChevronUp /> Mostrar apenas recentes
+                </>
+              ) : (
+                <>
+                  <FaHistory /> Ver experiências anteriores ({experiencesData.length - MAX_VISIBLE_EXPERIENCES})
+                </>
+              )}
+            </ShowMoreButton>
+          </ShowMoreContainer>
+        )}
+        
+        {/* Linhas de experiência */}
+        {visibleExperiences.map((exp, index) => (
           <ExperienceRow key={exp.id}>
             <LeftColumn>
               <CompanyInfoContainer>

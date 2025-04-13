@@ -51,6 +51,26 @@ export const projectsData = [
 export const experiencesData = [
   {
     id: 1,
+    company: "Empresa Fictícia A",
+    date: "Janeiro 2021 - Maio 2021",
+    role: "Desenvolvedor Frontend Jr.",
+    description:
+      "Atuei como desenvolvedor frontend implementando interfaces responsivas com React e JavaScript.",
+    color: "#4169E1",
+    technologies: ["React", "JavaScript", "Git"]
+  },
+  {
+    id: 2,
+    company: "Empresa Fictícia B",
+    date: "Junho 2021 - Dezembro 2021",
+    role: "Desenvolvedor Backend Jr.",
+    description:
+      "Trabalhei no desenvolvimento de APIs RESTful com Java e Spring Boot, integrando com bancos de dados PostgreSQL.",
+    color: "#4169E1",
+    technologies: ["Java", "Spring", "PostgreSQL", "GitHub"]
+  },
+  {
+    id: 3,
     company: "InfoCorp",
     date: "Agosto 2022 - Janeiro 2024",
     role: "Back End Developer",
@@ -60,7 +80,7 @@ export const experiencesData = [
     technologies: ["Java", "Spring", "PostgreSQL", "GitHub"]
   },
   {
-    id: 2,
+    id: 4,
     company: "Grupo Optimus",
     date: "Julho 2024 - Setembro 2024",
     role: "Estagiário Full Stack",
@@ -70,7 +90,7 @@ export const experiencesData = [
     technologies: ["Java", "Spring", "PostgreSQL", "React", "JavaScript","Python"]
   },
   {
-    id: 3,
+    id: 5,
     company: "NUTI - IC",
     date: "Outubro 2024",
     role: "Estagiário Full Stack",
@@ -79,4 +99,6 @@ export const experiencesData = [
     color: "#4169E1",
     technologies: ["C#", ".NET", "ASP.NET MVC","GitHub"]
   },
+
+    /*ADICIONAR NOVAS EXPERIENCIAS ABAIXO, SEGUINDO A NUMERAÇÃO DOS IDS PARA CORRETA ORDENAÇÃO */
 ];
