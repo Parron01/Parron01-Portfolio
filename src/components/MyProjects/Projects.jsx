@@ -88,8 +88,8 @@ const Projects = () => {
   };
 
   const handleCardClick = (link) => {
-    // Só redireciona se for o projeto da Plataforma de Pagamento
-    if (link && link.includes('simpleapp.parron01.com')) {
+    // Redirecionamento para qualquer projeto que tenha um link válido
+    if (link && link.trim() !== '') {
       window.open(link, "_blank");
     }
   };
@@ -189,7 +189,7 @@ const Projects = () => {
               $reverse={index % 2 !== 0}
               $index={index}
               onClick={() => handleCardClick(project.link)}
-              $isClickable={project.link.includes('simpleapp.parron01.com')}
+              $isClickable={project.link && project.link.trim() !== ''}
               $highlighted={project.id === highlightedProject}
             >
               {showIndicator && isMobile && (
