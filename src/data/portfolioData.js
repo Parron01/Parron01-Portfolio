@@ -31,7 +31,7 @@ export const projectsData = [
     description:
       "Aplicação web para consulta de contratos públicos via API do PNCP, com backend em Java e frontend em React. Para mais detalhes, acesse o repositório no GitHub.",
     image: projeto1Image,
-    link: "https://github.com/Parron01/TestePraticoNUTI",
+    link: "https://nuti.parron01.com",
     githubLink: "https://github.com/Parron01/TestePraticoNUTI",
     technologies: ["Java", "React", "PostgreSQL", "GitHub", "Docker", "Spring Boot"]
   },
