@@ -70,7 +70,7 @@ const Projects = () => {
       setTimeout(() => {
         setShowIndicator(false);
       }, 2000);
-    }, 10000);
+    }, 7000);
 
     // Clean up timeouts/intervals on unmount
     return () => {
@@ -184,14 +184,8 @@ const Projects = () => {
           $slideDirection={slideDirection}
         >
           {getCurrentPageProjects().map((project, index) => (
-            <ProjectCard 
-              key={project.id}
-              $reverse={index % 2 !== 0}
-              $index={index}
-              onClick={() => handleCardClick(project.link)}
-              $isClickable={project.link && project.link.trim() !== ''}
-              $highlighted={project.id === highlightedProject}
-            >
+            <div key={project.id} style={{ position: 'relative' }}>
+              {/* Indicador de toque como overlay */}
               {showIndicator && isMobile && (
                 <CardTouchIndicator aria-hidden="true">
                   <FaHandPointer />
@@ -199,50 +193,58 @@ const Projects = () => {
                 </CardTouchIndicator>
               )}
               
-              <ProjectImage 
-                src={project.image} 
-                alt={project.title} 
-                $reverse={index % 2 !== 0} 
-              />
-              <ProjectContent>
-                <ProjectTitle>{project.title}</ProjectTitle>
-                <ProjectDescription>{project.description}</ProjectDescription>
-                <TechStack>
-                  {project.technologies.map((techName, techIndex) => {
-                    const tech = techIconMap[techName];
-                    const Icon = tech.icon;
-                    return (
-                      <TechItem 
-                        key={techIndex} 
-                        color={tech.color} 
-                        title={techName}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleTechClick(project.id, techIndex);
-                        }}
-                      >
-                        <Icon />
-                        <Tooltip $visible={activeTooltip.projectId === project.id && activeTooltip.techIndex === techIndex}>
-                          {techName}
-                        </Tooltip>
-                      </TechItem>
-                    );
-                  })}
-                </TechStack>
-                <ProjectLink 
-                  href={project.githubLink || project.link} 
-                  target="_blank"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    window.open(project.githubLink || project.link, "_blank");
-                  }}
-                >
-                  <GitHubIcon />
-                  Acesse o repositório
-                </ProjectLink>
-              </ProjectContent>
-            </ProjectCard>
+              <ProjectCard 
+                $reverse={index % 2 !== 0}
+                $index={index}
+                onClick={() => handleCardClick(project.link)}
+                $isClickable={project.link && project.link.trim() !== ''}
+                $highlighted={project.id === highlightedProject}
+              >
+                <ProjectImage 
+                  src={project.image} 
+                  alt={project.title} 
+                  $reverse={index % 2 !== 0} 
+                />
+                <ProjectContent>
+                  <ProjectTitle>{project.title}</ProjectTitle>
+                  <ProjectDescription>{project.description}</ProjectDescription>
+                  <TechStack>
+                    {project.technologies.map((techName, techIndex) => {
+                      const tech = techIconMap[techName];
+                      const Icon = tech.icon;
+                      return (
+                        <TechItem 
+                          key={techIndex} 
+                          color={tech.color} 
+                          title={techName}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleTechClick(project.id, techIndex);
+                          }}
+                        >
+                          <Icon />
+                          <Tooltip $visible={activeTooltip.projectId === project.id && activeTooltip.techIndex === techIndex}>
+                            {techName}
+                          </Tooltip>
+                        </TechItem>
+                      );
+                    })}
+                  </TechStack>
+                  <ProjectLink 
+                    href={project.githubLink || project.link} 
+                    target="_blank"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      window.open(project.githubLink || project.link, "_blank");
+                    }}
+                  >
+                    <GitHubIcon />
+                    Acesse o repositório
+                  </ProjectLink>
+                </ProjectContent>
+              </ProjectCard>
+            </div>
           ))}
         </ProjectGrid>
         

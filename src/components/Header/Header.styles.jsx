@@ -111,8 +111,8 @@ export const NavLinks = styled.ul`
     display: ${({ open }) => (open ? "flex" : "none")};
     flex-direction: column;
     position: absolute;
-    top: 9.2rem;
-    right: 12.5%;
+    top: 5.75rem;
+    right: 0;
     background: #171717;
     padding: 1rem;
     border-radius: 10px;

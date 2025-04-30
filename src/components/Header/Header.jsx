@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-scroll";
 import {
   HeaderContainer,
@@ -17,6 +17,26 @@ import icon01 from "/src/assets/01-icon.png"; // Importando a imagem
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      
+      // Se estiver scrollando e o menu estiver aberto, fecha o menu
+      if (currentScrollPos !== prevScrollPos && menuOpen) {
+        setMenuOpen(false);
+      }
+      
+      setPrevScrollPos(currentScrollPos);
+    };
+
+    // Adiciona o event listener
+    window.addEventListener('scroll', handleScroll);
+
+    // Cleanup function
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [menuOpen, prevScrollPos]);
   
   const navLinkProps = {
     smooth: true,

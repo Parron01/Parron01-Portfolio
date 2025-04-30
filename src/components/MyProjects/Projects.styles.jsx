@@ -131,39 +131,34 @@ const pulseHighlight = keyframes`
 
 export const CardTouchIndicator = styled.div`
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 12px 20px;
-  border-radius: 20px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  font-size: 1rem;
-  z-index: 20; 
-  animation: ${pulseAnimation} 1s infinite ease-in-out;
-  pointer-events: none; 
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-  max-width: 80%; 
-  text-align: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
+  z-index: 10;
+  pointer-events: none;
+  animation: ${fadeInOut} 2s ease-in-out forwards;
   
-  @media (max-width: 1100px) {
-    width: auto;
-    max-width: 90%;
-  }
-  
-  @media (max-width: 480px) {
-    padding: 10px 16px;
-    font-size: 0.9rem;
+  svg {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: white;
   }
 `;
 
 export const TapText = styled.span`
-  font-weight: 500;
-  white-space: nowrap;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 0 1rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 `;
 
 export const ProjectCard = styled.div`
