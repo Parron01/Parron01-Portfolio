@@ -92,6 +92,7 @@ const Projects = () => {
     if (link && link.trim() !== '') {
       window.open(link, "_blank");
     }
+    // Não faz nada se o link não existir ou for vazio
   };
 
   // Funções de navegação entre páginas
@@ -185,8 +186,8 @@ const Projects = () => {
         >
           {getCurrentPageProjects().map((project, index) => (
             <div key={project.id} style={{ position: 'relative' }}>
-              {/* Indicador de toque como overlay */}
-              {showIndicator && isMobile && (
+              {/* Indicador de toque como overlay, apenas se houver link */}
+              {showIndicator && isMobile && project.link && project.link.trim() !== '' && (
                 <CardTouchIndicator aria-hidden="true">
                   <FaHandPointer />
                   <TapText>Clique para acessar projeto</TapText>
@@ -230,18 +231,21 @@ const Projects = () => {
                       );
                     })}
                   </TechStack>
-                  <ProjectLink 
-                    href={project.githubLink || project.link} 
-                    target="_blank"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      window.open(project.githubLink || project.link, "_blank");
-                    }}
-                  >
-                    <GitHubIcon />
-                    Acesse o repositório
-                  </ProjectLink>
+                  {/* Renderiza o botão do GitHub apenas se houver um link */}
+                  {(project.githubLink || project.link) && (
+                    <ProjectLink 
+                      href={project.githubLink || project.link} 
+                      target="_blank"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.open(project.githubLink || project.link, "_blank");
+                      }}
+                    >
+                      <GitHubIcon />
+                      Acesse o {project.githubLink ? "repositório" : "projeto"}
+                    </ProjectLink>
+                  )}
                 </ProjectContent>
               </ProjectCard>
             </div>

@@ -395,3 +395,76 @@ export const SkillsGridContainer = styled.div`
   flex-direction: column;
   align-items: center;
 `;
+
+// Novos estilos para filtros de categoria
+export const FilterContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  width: 100%;
+`;
+
+export const FilterButton = styled.button`
+  background: ${props => props.$active ? '#4169E1' : '#f8f8f8'};
+  color: ${props => props.$active ? 'white' : '#333'};
+  border: 2px solid ${props => props.$active ? '#4169E1' : '#e0e0e0'};
+  border-radius: 50px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: ${props => props.$active ? 'bold' : 'normal'};
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: ${props => props.$active 
+    ? '0 4px 8px rgba(65, 105, 225, 0.2)' 
+    : '0 2px 4px rgba(0, 0, 0, 0.05)'};
+  
+  &:hover {
+    background: ${props => props.$active ? '#3154b0' : '#eaeaea'};
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  @media (max-width: 768px) {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+`;
+
+export const FilterIcon = styled.span`
+  margin-right: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  svg {
+    font-size: 1.1rem;
+  }
+`;
+
+export const CategoryBadge = styled.span`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: ${props => {
+    switch (props.$category?.toLowerCase()) {
+      case 'frontend': return '#61DAFB';
+      case 'backend': return '#F89820';
+      case 'database': return '#336791';
+      case 'devops': return '#2496ED';
+      default: return '#aaaaaa';
+    }
+  }};
+  color: white;
+  font-size: 0.7rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+  opacity: 0.9;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+`;

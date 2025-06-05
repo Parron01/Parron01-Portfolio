@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight, FaLaptopCode, FaServer, FaDatabase, FaCogs, FaFilter } from "react-icons/fa";
 import {
   SkillsContainer,
   ContentWrapper,
@@ -27,12 +27,18 @@ import {
   PrevArrow,
   NextArrow,
   PaginationIndicator,
-  PageDot
+  PageDot,
+  // Novos componentes para filtro de categorias
+  FilterContainer,
+  FilterButton,
+  FilterIcon,
+  CategoryBadge
 } from "./Skills.styles";
 
-import { usePortfolioData } from "../../hooks/usePortfolioData.jsx"; // Usando .jsx para evitar confusão
+import { usePortfolioData } from "../../hooks/usePortfolioData.jsx";
+import { techCategories, techIconMap } from "../../data/portfolioData.js";
 
-const ITEMS_PER_PAGE = 6; // 2 linhas com 3 colunas = 6 itens por página
+const ITEMS_PER_PAGE = 6;
 
 /**
  * Componente de exibição das habilidades técnicas, ordenadas por frequência de uso
@@ -47,17 +53,28 @@ const Skills = () => {
     navigateToExperience,
     navigateToProject 
   } = usePortfolioData();
+  
   const [activePopup, setActivePopup] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [currentPage, setCurrentPage] = useState(1);
   const [isChanging, setIsChanging] = useState(false);
   const [slideDirection, setSlideDirection] = useState(null);
-  const [activeTab, setActiveTab] = useState('projects'); // Estado para controlar a aba ativa: 'projects' ou 'experiences'
+  const [activeTab, setActiveTab] = useState('projects');
+  // Estado para filtro de categoria
+  const [activeCategory, setActiveCategory] = useState("all");
+  
   const popupRef = useRef(null);
   const cardRefs = useRef({});
 
-  // Calcular o número total de páginas
-  const totalPages = Math.ceil(techItems.length / ITEMS_PER_PAGE);
+  // Filtra as tecnologias por categoria
+  const filteredTechItems = techItems.filter(tech => {
+    if (activeCategory === "all") return true;
+    return tech.name in techIconMap && 
+      techIconMap[tech.name].category?.toLowerCase() === activeCategory.toLowerCase();
+  });
+
+  // Calcular o número total de páginas após filtro
+  const totalPages = Math.ceil(filteredTechItems.length / ITEMS_PER_PAGE);
 
   // Fechar popup ao fazer scroll
   useEffect(() => {
@@ -90,18 +107,40 @@ const Skills = () => {
 
   // Efeito para navegar até a tecnologia destacada
   useEffect(() => {
-    if (highlightedTech && techItems.length > 0) {
-      // Encontrar a página onde a tecnologia está
-      const techPage = findTechPage(highlightedTech);
+    if (highlightedTech && filteredTechItems.length > 0) {
+      // Verificar se a tecnologia está no filtro atual
+      const techExists = filteredTechItems.some(tech => tech.name === highlightedTech);
       
-      // Se a tecnologia foi encontrada e está em uma página diferente
-      if (techPage > 0 && techPage !== currentPage) {
-        // Navegar para a página correta
-        const direction = techPage > currentPage ? 'left' : 'right';
-        animatePageChange(direction, techPage);
+      if (techExists) {
+        // Encontrar a página onde a tecnologia está
+        const techIndex = filteredTechItems.findIndex(tech => tech.name === highlightedTech);
+        if (techIndex >= 0) {
+          const techPage = Math.floor(techIndex / ITEMS_PER_PAGE) + 1;
+          
+          // Se a tecnologia foi encontrada e está em uma página diferente
+          if (techPage !== currentPage) {
+            // Navegar para a página correta
+            const direction = techPage > currentPage ? 'left' : 'right';
+            animatePageChange(direction, techPage);
+          }
+        }
+      } else {
+        // Se a tecnologia não está no filtro atual, mudar para 'all'
+        setActiveCategory("all");
+        // Resetar página para 1 com animação
+        if (currentPage !== 1) {
+          animatePageChange('right', 1);
+        }
       }
     }
-  }, [highlightedTech, techItems]);
+  }, [highlightedTech, filteredTechItems, activeCategory]);
+
+  // Reset para página 1 quando o filtro mudar
+  useEffect(() => {
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+    }
+  }, [activeCategory]);
 
   /**
    * Manipula clique no card de habilidade mostrando popup com detalhes
@@ -134,16 +173,25 @@ const Skills = () => {
     }
   };
 
+  // Obter ícone para categoria
+  const getCategoryIcon = (categoryId) => {
+    switch (categoryId) {
+      case "frontend": return <FaLaptopCode />;
+      case "backend": return <FaServer />;
+      case "database": return <FaDatabase />;
+      case "devops": return <FaCogs />;
+      default: return <FaFilter />;
+    }
+  };
+
   /**
-   * Retorna os itens de tecnologia para a página atual
-   * Mantém a ordenação por frequência de uso (maior para menor)
+   * Retorna os itens de tecnologia filtrados para a página atual
    * @returns {Array} Lista de tecnologias para a página atual
    */
   const getCurrentPageItems = () => {
-    // techItems já está ordenado por count do maior para o menor
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
-    return techItems.slice(startIndex, endIndex);
+    return filteredTechItems.slice(startIndex, endIndex);
   };
 
   const animatePageChange = (direction, newPage) => {
@@ -181,6 +229,13 @@ const Skills = () => {
       const direction = pageNumber > currentPage ? 'left' : 'right';
       animatePageChange(direction, pageNumber);
       setActivePopup(null);
+    }
+  };
+
+  const handleCategoryChange = (category) => {
+    if (activeCategory !== category) {
+      setActivePopup(null);
+      setActiveCategory(category);
     }
   };
 
@@ -222,6 +277,20 @@ const Skills = () => {
       <ContentWrapper>
         <SkillsTitle>Habilidades</SkillsTitle>
         
+        {/* Filtros de categoria */}
+        <FilterContainer>
+          {techCategories.map(category => (
+            <FilterButton 
+              key={category.id}
+              $active={activeCategory === category.id}
+              onClick={() => handleCategoryChange(category.id)}
+            >
+              <FilterIcon>{getCategoryIcon(category.id)}</FilterIcon>
+              {category.name}
+            </FilterButton>
+          ))}
+        </FilterContainer>
+        
         <SkillsGridContainer>
           {/* Container de paginação envolve o grid */}
           <PaginationContainer>
@@ -256,6 +325,11 @@ const Skills = () => {
                 tabIndex={0}
                 $highlighted={tech.name === highlightedTech}
               >
+                {tech.name in techIconMap && (
+                  <CategoryBadge $category={techIconMap[tech.name].category}>
+                    {techIconMap[tech.name].category}
+                  </CategoryBadge>
+                )}
                 <SkillIcon color={tech.color}>
                   {tech.icon && <tech.icon />}
                 </SkillIcon>
@@ -267,6 +341,18 @@ const Skills = () => {
                 </SkillInfo>
               </SkillCard>
             ))}
+            
+            {/* Mensagem se não houver tecnologias no filtro atual */}
+            {filteredTechItems.length === 0 && (
+              <div style={{ 
+                gridColumn: '1 / -1', 
+                textAlign: 'center',
+                padding: '2rem',
+                color: '#666'
+              }}>
+                Nenhuma tecnologia encontrada nesta categoria.
+              </div>
+            )}
           </SkillsGrid>
           
           {/* Indicadores de página */}
