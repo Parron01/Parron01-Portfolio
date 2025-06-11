@@ -52,6 +52,7 @@ export const projectsData = [
     image: projeto3Image,
     link: "https://estoque.parron01.com",
     githubLink: "https://github.com/Parron01/GerenciadorEstoque",
+    linkedinPostLink: "https://www.linkedin.com/feed/update/urn:li:activity:7338666188471726081/", 
     technologies: ["Go", "Vue.js", "PostgreSQL", "GitHub", "Docker", "DockerHub", "Tailwind CSS", "TypeScript"]
   },
   {
@@ -62,6 +63,7 @@ export const projectsData = [
     image: projeto1Image,
     link: "https://nuti.parron01.com",
     githubLink: "https://github.com/Parron01/TestePraticoNUTI",
+    linkedinPostLink: "https://www.linkedin.com/feed/update/urn:li:activity:7319749782502039553/", 
     technologies: ["Java", "React", "PostgreSQL", "GitHub", "Docker", "DockerHub", "Spring Boot", "JavaScript"]
   },
   {
@@ -72,6 +74,7 @@ export const projectsData = [
     image: projeto2Image,
     link: "https://simpleapp.parron01.com/login",
     githubLink: "https://github.com/Parron01/SimpleAppFullStack-TestePratico",
+    linkedinPostLink: "https://www.linkedin.com/feed/update/urn:li:activity:7318050762993942528/", 
     technologies: ["Java", "React", "PostgreSQL", "GitHub", "Docker", "DockerHub", "Spring Boot", "TypeScript"]
   },
   {
@@ -82,6 +85,7 @@ export const projectsData = [
     image: portfolioImage,
     link: "",
     githubLink: "",
+    linkedinPostLink: "https://www.linkedin.com/feed/update/urn:li:activity:7323477941621821440/", 
     technologies: ["React", "JavaScript", "Docker", "DockerHub", "CI/CD", "VPS", "Nginx", "GitHub"]
   }
   

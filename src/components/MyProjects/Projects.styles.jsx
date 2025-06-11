@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 export const ProjectsContainer = styled.section`
   display: flex;
@@ -204,6 +204,10 @@ export const ProjectCard = styled.div`
     margin-right: 0;
     margin-left: 0;
   }
+  
+  @media (max-width: 768px) {
+    padding-top: 0.5rem; /* Add a bit of top padding to the card itself */
+  }
 `;
 
 export const ProjectContent = styled.div`
@@ -221,12 +225,20 @@ export const ProjectContent = styled.div`
     align-items: center; 
     text-align: center; 
   }
+  
+  @media (max-width: 768px) {
+    padding-top: 2rem; /* Increased top padding for mobile */
+  }
 `;
 
 export const ProjectTitle = styled.h3`
   font-size: 1.5rem;
   font-weight: bold;
   color: #171717;
+  
+  @media (max-width: 768px) {
+    margin-top: 0.5rem; /* Add margin at the top on small screens */
+  }
 `;
 
 export const ProjectDescription = styled.p`
@@ -291,6 +303,17 @@ export const Tooltip = styled.div`
   }
 `;
 
+export const ProjectButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  
+  @media (max-width: 1100px) {
+    align-items: center;
+  }
+`;
+
 export const ProjectLink = styled.a`
   background-color: #333;
   color: #ffffff;
@@ -316,10 +339,131 @@ export const ProjectLink = styled.a`
   }
 `;
 
+export const LinkedInPostButton = styled.a`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 36px;
+  height: 36px;
+  background-color: #0077B5;
+  color: white;
+  border-radius: 36px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0, 119, 181, 0.3);
+  transition: all 0.3s ease;
+  z-index: 15;
+  opacity: 0.9;
+  overflow: hidden;
+  padding: 0;
+  justify-content: center; /* Always centered in default state */
+  
+  /* Mobile styles - always expanded and positioned higher */
+  @media (max-width: 768px) {
+    width: 80px;
+    justify-content: flex-start;
+    padding-left: 8px;
+    top: 0.6rem; /* Positioned higher on mobile */
+  }
+  
+  /* Tablet styles - always expanded */
+  @media (min-width: 769px) and (max-width: 1100px) {
+    width: 80px;
+    justify-content: flex-start;
+    padding-left: 8px;
+  }
+  
+  /* Desktop hover styles */
+  @media (min-width: 1101px) {
+    &:hover {
+      width: 80px;
+      opacity: 1;
+      background-color: #005885;
+      box-shadow: 0 4px 12px rgba(0, 119, 181, 0.4);
+      justify-content: flex-start;
+      padding-left: 8px;
+    }
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+`;
+
+export const LinkedInIconWrapper = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; /* Fixed width that matches the parent button width */
+  min-width: 36px; /* Ensures it doesn't shrink */
+  height: 36px;
+`;
+
+export const LinkedInPostText = styled.span`
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  
+  /* Desktop styles */
+  @media (min-width: 1101px) {
+    opacity: 0;
+    max-width: 0;
+    
+    ${LinkedInPostButton}:hover & {
+      opacity: 1;
+      max-width: 40px; /* Reduced from 50px */
+      margin-left: -4px; /* Reduced from -5px */
+    }
+  }
+  
+  /* Mobile styles - always visible */
+  @media (max-width: 1100px) {
+    opacity: 1;
+    max-width: 40px; /* Reduced from 50px */
+    margin-left: -4px; /* Reduced from -5px */
+  }
+`;
+
+export const LinkedInTooltip = styled.div`
+  position: absolute;
+  background-color: #333;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: ${({ $visible }) => ($visible ? '1' : '0')};
+  visibility: ${({ $visible }) => ($visible ? 'visible' : 'hidden')};
+  transform: translateY(${({ $visible }) => ($visible ? '0' : '-5px')});
+  transition: all 0.2s ease;
+  z-index: 20;
+  
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    right: 12px;
+    border: 5px solid transparent;
+    border-bottom-color: #333;
+  }
+`;
+
 export const GitHubIcon = styled(FaGithub)`
   font-size: 1.2rem;
 `;
-  
+
+export const LinkedInIcon = styled(FaLinkedin)`
+  font-size: 1rem;
+`;
+
 export const ProjectImage = styled.img`
   flex: 0 0 50%;
   object-fit: cover;

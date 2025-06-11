@@ -13,6 +13,12 @@ import {
   TechItem,
   ProjectLink,
   GitHubIcon,
+  LinkedInPostButton,
+  LinkedInIcon,
+  LinkedInIconWrapper,
+  LinkedInPostText,
+  LinkedInTooltip,
+  ProjectButtonsContainer,
   Tooltip,
   CardTouchIndicator,
   TapText,
@@ -39,6 +45,8 @@ const Projects = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isChanging, setIsChanging] = useState(false);
   const [slideDirection, setSlideDirection] = useState(null);
+  
+  const [linkedinTooltip, setLinkedinTooltip] = useState(null);
   
   // Importar estado de página-alvo e projeto destacado do contexto
   const { targetProjectPage, setTargetProjectPage, highlightedProject } = usePortfolioData();
@@ -201,6 +209,29 @@ const Projects = () => {
                 $isClickable={project.link && project.link.trim() !== ''}
                 $highlighted={project.id === highlightedProject}
               >
+                {/* Botão do LinkedIn - Posicionado no canto superior direito */}
+                {project.linkedinPostLink && project.linkedinPostLink.trim() !== '' && (
+                  <LinkedInPostButton
+                    href={project.linkedinPostLink}
+                    target="_blank"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      window.open(project.linkedinPostLink, "_blank");
+                    }}
+                    onMouseEnter={() => setLinkedinTooltip(project.id)}
+                    onMouseLeave={() => setLinkedinTooltip(null)}
+                  >
+                    <LinkedInIconWrapper>
+                      <LinkedInIcon />
+                    </LinkedInIconWrapper>
+                    <LinkedInPostText>Post</LinkedInPostText>
+                    <LinkedInTooltip $visible={linkedinTooltip === project.id}>
+                      Ver publicação no LinkedIn
+                    </LinkedInTooltip>
+                  </LinkedInPostButton>
+                )}
+                
                 <ProjectImage 
                   src={project.image} 
                   alt={project.title} 
@@ -231,20 +262,23 @@ const Projects = () => {
                       );
                     })}
                   </TechStack>
-                  {/* Renderiza o botão do GitHub apenas se houver um link */}
+                  
+                  {/* Container para o botão GitHub/Projeto */}
                   {(project.githubLink || project.link) && (
-                    <ProjectLink 
-                      href={project.githubLink || project.link} 
-                      target="_blank"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        window.open(project.githubLink || project.link, "_blank");
-                      }}
-                    >
-                      <GitHubIcon />
-                      Acesse o {project.githubLink ? "repositório" : "projeto"}
-                    </ProjectLink>
+                    <ProjectButtonsContainer>
+                      <ProjectLink 
+                        href={project.githubLink || project.link} 
+                        target="_blank"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          window.open(project.githubLink || project.link, "_blank");
+                        }}
+                      >
+                        <GitHubIcon />
+                        Acesse o {project.githubLink ? "repositório" : "projeto"}
+                      </ProjectLink>
+                    </ProjectButtonsContainer>
                   )}
                 </ProjectContent>
               </ProjectCard>
