@@ -54,7 +54,7 @@ const Introduction = () => {
             <SocialIcon href="https://www.instagram.com/andre_parron" target="_blank">
               <FaInstagram />
             </SocialIcon>
-            <SocialIcon href="www.linkedin.com/in/parron01" target="_blank">
+            <SocialIcon href="https://www.linkedin.com/in/parron01" target="_blank">
               <FaLinkedin />
             </SocialIcon>
           </SocialIcons>
