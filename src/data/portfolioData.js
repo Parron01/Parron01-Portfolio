@@ -1,6 +1,6 @@
 import { FaJava, FaReact, FaPython, FaNodeJs, FaDatabase, FaGit, 
   FaGithub, FaDocker, FaCode, FaJs, FaWindowMaximize, FaLeaf, FaServer } from "react-icons/fa";
-import { SiSpringboot, SiVuedotjs, SiTailwindcss, SiGo, SiNginx, SiTypescript } from "react-icons/si";
+import { SiSpringboot, SiVuedotjs, SiTailwindcss, SiGo, SiNginx, SiTypescript, SiAngular } from "react-icons/si";
 import { AiFillCiCircle } from "react-icons/ai";
 import projeto1Image from "/src/assets/projeto1.png";
 import projeto2Image from "/src/assets/projeto2.png";
@@ -31,6 +31,8 @@ export const techIconMap = {
   "CI/CD": { icon: AiFillCiCircle, color: "#FF6347", category: "DevOps" },
   "VPS": { icon: FaServer, color: "#6B8E23", category: "DevOps" },
   "Nginx": { icon: SiNginx, color: "#009639", category: "DevOps" },
+  "Kotlin": { icon: FaCode, color: "#7F52FF", category: "Backend" },
+  "Angular": { icon: SiAngular, color: "#DD0031", category: "Frontend" },
 };
 
 // Define categories for filtering
@@ -52,7 +54,6 @@ export const projectsData = [
     image: projeto3Image,
     link: "https://estoque.parron01.com",
     githubLink: "https://github.com/Parron01/GerenciadorEstoque",
-    linkedinPostLink: "https://www.linkedin.com/feed/update/urn:li:activity:7338666188471726081/", 
     technologies: ["Go", "Vue.js", "PostgreSQL", "GitHub", "Docker", "DockerHub", "Tailwind CSS", "TypeScript"]
   },
   {
@@ -63,7 +64,6 @@ export const projectsData = [
     image: projeto1Image,
     link: "https://nuti.parron01.com",
     githubLink: "https://github.com/Parron01/TestePraticoNUTI",
-    linkedinPostLink: "https://www.linkedin.com/feed/update/urn:li:activity:7319749782502039553/", 
     technologies: ["Java", "React", "PostgreSQL", "GitHub", "Docker", "DockerHub", "Spring Boot", "JavaScript"]
   },
   {
@@ -74,7 +74,6 @@ export const projectsData = [
     image: projeto2Image,
     link: "https://simpleapp.parron01.com/login",
     githubLink: "https://github.com/Parron01/SimpleAppFullStack-TestePratico",
-    linkedinPostLink: "https://www.linkedin.com/feed/update/urn:li:activity:7318050762993942528/", 
     technologies: ["Java", "React", "PostgreSQL", "GitHub", "Docker", "DockerHub", "Spring Boot", "TypeScript"]
   },
   {
@@ -85,7 +84,6 @@ export const projectsData = [
     image: portfolioImage,
     link: "",
     githubLink: "",
-    linkedinPostLink: "https://www.linkedin.com/feed/update/urn:li:activity:7323477941621821440/", 
     technologies: ["React", "JavaScript", "Docker", "DockerHub", "CI/CD", "VPS", "Nginx", "GitHub"]
   }
   
@@ -122,6 +120,16 @@ export const experiencesData = [
       "Atuei como desenvolvedor Full Stack com C# na plataforma .NET com front-end integrado em estrutura ASP.NET MVC.",
     color: "#4169E1",
     technologies: ["C#", ".NET", "ASP.NET MVC","GitHub", "JavaScript"]
+  },
+  {
+    id: 4,
+    company: "Goat Ibex",
+    date: "Julho 2025 - Atual",
+    role: "Desenvolvedor Júnior Full-Stack",
+    description:
+      "Área de BPO financeiro. • Criação de novas interfaces/funcionalidades do Banco de Dados ao FrontEnd • Resolução de bugs e aprimoramento do sistema. ",
+    color: "#4169E1",
+    technologies: ["Kotlin", "Angular", "PostgreSQL"]
   },
 
     /*ADICIONAR NOVAS EXPERIENCIAS ABAIXO, SEGUINDO A NUMERAÇÃO DOS IDS PARA CORRETA ORDENAÇÃO */
