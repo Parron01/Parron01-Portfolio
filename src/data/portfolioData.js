@@ -105,7 +105,7 @@ export const experiencesData = [
     id: 2,
     company: "Grupo Optimus",
     date: "Julho 2024 - Setembro 2024",
-    role: "Estagiário Full Stack",
+    role: "Desenvolvedor Full Stack",
     description:
       "Atuei como desenvolvedor Full Stack com Java e Spring Boot com PostgreSQL e React com JavaScript, MUI.",
     color: "#4169E1",
@@ -115,7 +115,7 @@ export const experiencesData = [
     id: 3,
     company: "NUTI - IC",
     date: "Outubro 2024",
-    role: "Estagiário Full Stack",
+    role: "Desenvolvedor Full Stack",
     description:
       "Atuei como desenvolvedor Full Stack com C# na plataforma .NET com front-end integrado em estrutura ASP.NET MVC.",
     color: "#4169E1",
