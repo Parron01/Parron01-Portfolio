@@ -34,7 +34,7 @@ const Introduction = () => {
             Atuo na área de desenvolvimento de software tanto no Frontend como no Backend.
           </Description>
           <HireMeButton 
-            href="https://drive.google.com/file/d/1mqKtXW0BGucxeCPsOk1WL7fL2zxZZm0U/view?usp=sharing" 
+            href="https://drive.google.com/file/d/1dd5PZSyJXrb13pIm-yRwZ4FSpMMs5nep/view" 
             target="_blank" 
             rel="noopener noreferrer"
           >
